@@ -1,0 +1,59 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* 세로축 기준 가운데 정렬 */
+  margin-top: 40px;
+}
+
+.login-title {
+  font-weight: bold;
+  font-size: 20px;
+  color: #008DDA;
+}
+
+.login-input {
+  display: flex;
+  flex-direction: column;
+  width: 268px;
+  color: #C9C9C9;
+}
+
+.login-input input {
+  padding-left: 7px;
+  height: 25px;
+}
+
+.login-input-id {
+  margin-top: 25px;
+}
+.login-input-pw {
+  margin-top: 10px;
+}
+
+.login-button {
+  margin-top: 20px;
+  background-color: #52B6FF;
+  border-radius: 10px;
+  border: none;
+  width: 268px;
+  height: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #FFFDF7;
+}
+
+.login-bottom {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  width: 268px;
+}
+.login-bottom-findid {
+  padding-right: 10px;
+}
+.login-bottom-findpw {
+  padding: 0 10px;
+} 
+.login-bottom-join {
+  padding-left: 10px;
+}

@@ -1,10 +1,11 @@
 import React from 'react';
+import '../assets/styles/HeaderStyle.css';
 
 function Header() {
   return (
-    <header>
-      <h1>ToDo List</h1>
-    </header>
+    <div className="container">
+      <header className='header'>ToDo List</header>
+    </div>
   );
 }
 
