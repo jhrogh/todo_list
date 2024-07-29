@@ -1,0 +1,19 @@
+.footer-container {
+  background-color: #E6F7FF;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  bottom: 1px;
+}
+
+.footer-img {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+.footer-img img {
+  width: 40px;
+  height: 40px;
+}
