@@ -1,0 +1,61 @@
+.changepw-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.changepw-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-color: #bdbdbd;
+  border-style: solid;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  border-width: 1px;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 400px;
+}
+
+.changepw-title {
+  font-weight: bold;
+  font-size: 20px;
+  color: #008dda;
+  margin-bottom: 30px;
+}
+
+.changepw-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 45px;
+}
+
+.changepw-input label {
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 15px;
+}
+.changepw-input input {
+  width: 180px;
+  height: 25px;
+  padding-left: 7px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #c9c9c9;
+  border-radius: 3px;
+}
+
+.changepw-button {
+  margin: 20px 0 10px 0;
+  background-color: #52b6ff;
+  border-radius: 10px;
+  border: none;
+  width: 280px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fffdf7;
+}

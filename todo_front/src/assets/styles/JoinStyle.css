@@ -51,6 +51,25 @@
   color: #bdbdbd;
 }
 
+.join-email {
+  display: flex;
+  margin-left: 200px;
+}
+
+.join-button-email {
+  justify-content: center;
+  align-items: center;
+  background-color: #52b6ff;
+  border-radius: 10px;
+  border: none;
+  width: 90px;
+  height: 25px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fffdf7;
+  padding: 0;
+}
+
 .join-button {
   margin-top: 30px;
   background-color: #52b6ff;
@@ -61,4 +80,5 @@
   font-size: 18px;
   font-weight: bold;
   color: #fffdf7;
+  padding: 0;
 }

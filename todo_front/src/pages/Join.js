@@ -38,6 +38,9 @@ function Join() {
           <label>*이메일</label>
           <input className="join-input-email" type="email" />
         </div>
+        <div className='join-email'>
+          <button className='join-button-email'>인증하기</button>
+        </div>        
         <button className="join-button">가입하기</button>
       </div>
     </div>
