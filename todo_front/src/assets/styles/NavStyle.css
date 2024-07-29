@@ -1,0 +1,6 @@
+.nav-container {
+  width: calc(100% - 35px);
+  margin-top: 20px;
+  margin-bottom: 40px;
+  text-align: right;
+}

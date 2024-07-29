@@ -1,6 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import '../assets/styles/NavStyle.css';
 
-function Nav() {}
+function Nav() {
+  return (
+    <div className='nav-container'>홍길동 님</div>
+  )
+}
 
 export default Nav;
