@@ -5,7 +5,7 @@ function Join() {
   return (
     <div className="join-container">
       <div className='join-body'>
-        <div className="join-title">회원가입</div>
+        <div className="join-title">회 원 가 입</div>
         <div className="join-input">
           <label>*아이디</label>
           <input

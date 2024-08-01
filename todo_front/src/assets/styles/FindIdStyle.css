@@ -20,7 +20,7 @@
 
 .findid-title {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 24px;
   color: #008dda;
   margin-bottom: 30px;
 }
@@ -46,14 +46,15 @@
   border-width: 1px;
   border-color: #c9c9c9;
   border-radius: 3px;
+  font-size: 15px;
 }
 
 .findid-button {
-  margin: 20px 0 10px 0;
+  margin: 27px 0 10px 0;
   background-color: #52b6ff;
   border-radius: 10px;
   border: none;
-  width: 280px;
+  width: 270px;
   height: 40px;
   font-size: 18px;
   font-weight: bold;

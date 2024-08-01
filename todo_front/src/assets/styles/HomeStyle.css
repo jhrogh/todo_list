@@ -1,84 +1,100 @@
 .home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
+  max-width: 400px;
+  width: 300px;
+  margin: 0 auto;
 }
 
-.home-body {
+.home-input-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 400px; /* 최대 가로 길이 설정 */
-  width: 100%; /* 부모 컨테이너에 맞춰 가로 폭 설정 */
+  justify-content: space-between;
+  margin-bottom: 30px;
+  height: 40px;
 }
 
-.home-add {
-  display: flex;
-  justify-content: center;
-  height: 30px;
-}
-
-.home-input {
-  width: 270px;
+.home-input-container input {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 16px;
   margin-right: 15px;
-  height: 100%;
   box-sizing: border-box;
+  height: 100%;
 }
 
-.home-button-add,
-.home-button-save,
-.home-button-delete {
-  background-color: #52b6ff;
+.home-input-container button {
+  width: 50px;
+  font-size: 25px;
+  font-weight: bold;
+  background-color: #4c68a9;
   color: #fffdf7;
-  border-color: #52b6ff;
+  border-color: #4c68a9;
   border-style: solid;
   border-width: 1px;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 0;
 }
 
-.home-button-add {
-  width: 50px;
-  height: 100%;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.home-context {
-  /* display: flex;
-  justify-content: center;
-  flex-direction: column; */
-  width: 300px;
-}
-
-.home-button {
+.home-button-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
 .home-button-save,
 .home-button-delete {
-  width: 60px;
-  height: 20px;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #eeeeee;
+  color: #1c3879;
+  border-color: #eeeeee;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 20px;
+  padding: 3px 10px;
 }
 
-.home-image-delete,
-.home-image-modify {
-  width: 20px;
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.home-list {
+.todo-item {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* 수직 정렬 추가 */
-  margin-top: 10px;
-  width: 100%; /* 부모 컨테이너의 가로 폭을 가득 채우기 */
+  align-items: center;
+  margin-bottom: 5px;
+  padding: 5px 0;
+  /* border-bottom: 1px solid #ddd; */
 }
 
-.home-list-test1 {
+.todo-item input[type='checkbox'] {
+  margin-right: 5px;
+  margin-left: 7px;
+}
+
+.todo-item .edit-input {
+  flex: 1;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+.todo-item .icon-group {
   display: flex;
-  align-items: center; /* 수직 정렬 추가 */
-  width: 100%; /* 부모 컨테이너의 가로 폭을 가득 채우기 */
+  gap: 15px;
+}
+
+.edit-icon,
+.delete-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.edit-icon:hover,
+.delete-icon:hover {
+  opacity: 0.7;
 }

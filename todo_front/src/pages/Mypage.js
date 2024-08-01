@@ -13,9 +13,9 @@ function Mypage() {
     <div className="mypage-container">
       <div className="mypage-body">
         <div className="mypage-title">마 이 페 이 지</div>
-        <div className="join-input">
+        <div className="mypage-input">
           <label>*아이디</label>
-          <input className="join-input-id" type="text" />
+          <input className="mypage-input-id" type="text" />
         </div>
         <div className="mypage-input">
           <label>*이름</label>

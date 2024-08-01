@@ -20,7 +20,7 @@
 
 .join-title {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 24px;
   color: #008dda;
   margin-bottom: 30px;
 }
@@ -36,16 +36,17 @@
 .join-input label {
   font-size: 15px;
   font-weight: bold;
-  margin-right: 15px;
+  margin-right: 13px;
 }
 .join-input input {
-  width: 180px;
+  width: 185px;
   height: 25px;
   padding-left: 7px;
   border-style: solid;
   border-width: 1px;
   border-color: #c9c9c9;
   border-radius: 3px;
+  font-size: 15px;
 }
 .join-input input::placeholder {
   color: #bdbdbd;
@@ -53,7 +54,8 @@
 
 .join-email {
   display: flex;
-  margin-left: 200px;
+  margin-left: 225px;
+  margin-top: 3px;
 }
 
 .join-button-email {
@@ -62,12 +64,10 @@
   background-color: #52b6ff;
   border-radius: 10px;
   border: none;
-  width: 90px;
-  height: 25px;
   font-size: 13px;
   font-weight: bold;
   color: #fffdf7;
-  padding: 0;
+  padding: 5px 10px;
 }
 
 .join-button {

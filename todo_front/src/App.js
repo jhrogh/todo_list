@@ -11,14 +11,15 @@ import Join from './pages/Join';
 import Login from './pages/Login';
 import Mypage from './pages/Mypage';
 import SaveList from './pages/SaveList';
+import './App.css';
 
 function App() {
   return (
     <Router>
-      <div>
+      <div className="app">
         <Header />
         <Nav />
-        <main>
+        <main className="main-content">
           <Routes>
             <Route path="/change/pw" element={<ChangePw />} />
             <Route path="/find/id" element={<FindId />} />

@@ -19,9 +19,9 @@
 
 .login-title {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 24px;
   color: #008DDA;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .login-input {
@@ -38,6 +38,7 @@
   border-width: 1px;
   border-color: #C9C9C9;
   border-radius: 3px;
+  font-size: 15px;
 }
 .login-input input::placeholder {
   color: #BDBDBD;

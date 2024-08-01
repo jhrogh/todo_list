@@ -1,0 +1,84 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.home-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px; /* 최대 가로 길이 설정 */
+  width: 100%; /* 부모 컨테이너에 맞춰 가로 폭 설정 */
+}
+
+.home-add {
+  display: flex;
+  justify-content: center;
+  height: 30px;
+}
+
+.home-input {
+  width: 270px;
+  margin-right: 15px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.home-button-add,
+.home-button-save,
+.home-button-delete {
+  background-color: #52b6ff;
+  color: #fffdf7;
+  border-color: #52b6ff;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  padding: 0;
+}
+
+.home-button-add {
+  width: 50px;
+  height: 100%;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.home-context {
+  /* display: flex;
+  justify-content: center;
+  flex-direction: column; */
+  width: 300px;
+}
+
+.home-button {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.home-button-save,
+.home-button-delete {
+  width: 60px;
+  height: 20px;
+  font-size: 13px;
+}
+
+.home-image-delete,
+.home-image-modify {
+  width: 20px;
+}
+
+.home-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* 수직 정렬 추가 */
+  margin-top: 10px;
+  width: 100%; /* 부모 컨테이너의 가로 폭을 가득 채우기 */
+}
+
+.home-list-test1 {
+  display: flex;
+  align-items: center; /* 수직 정렬 추가 */
+  width: 100%; /* 부모 컨테이너의 가로 폭을 가득 채우기 */
+}

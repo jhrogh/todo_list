@@ -1,3 +1,16 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  /* overflow-y: auto; */
+  padding-bottom: 60px; /* 푸터 높이만큼의 패딩 추가 */
+}
+
+
 .App {
   text-align: center;
 }
