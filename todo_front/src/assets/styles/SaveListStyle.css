@@ -1,0 +1,45 @@
+.todo-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.todo-item span {
+  flex-grow: 1;
+  text-align: left; /* 제목을 왼쪽 정렬 */
+  padding-left: 10px;
+}
+
+.icon-group {
+  display: flex;
+  gap: 17px; /* 아이콘 간격 설정 */
+  padding-right: 10px;
+}
+
+.edit-icon,
+.delete-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.edit-icon:hover,
+.delete-icon:hover {
+  opacity: 0.7;
+}
