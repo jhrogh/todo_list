@@ -17,7 +17,7 @@ public class MypageController {
     public ResponseEntity<?> show() {
         // 사용자 정보 생성
         Map<String, Object> user = new HashMap<>();
-        user.put("userId", "exampleUserId");
+        user.put("memberId", "example memberId");
         user.put("name", "Example Name");
         user.put("email", "example@example.com");
 

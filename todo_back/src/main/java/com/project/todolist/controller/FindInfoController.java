@@ -20,7 +20,7 @@ public class FindInfoController {
         if(isFindId) {
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("status", "success");
-            responseBody.put("userId", "찾은 아이디");
+            responseBody.put("memberId", "찾은 아이디");
 
             return ResponseEntity.ok().body(responseBody);
         }
@@ -47,7 +47,7 @@ public class FindInfoController {
         else {  // 400 error
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("status", "error");
-            responseBody.put("message", "Invalid email or userId");
+            responseBody.put("message", "Invalid email or memberId");
 
             return ResponseEntity.badRequest().body(responseBody);
         }

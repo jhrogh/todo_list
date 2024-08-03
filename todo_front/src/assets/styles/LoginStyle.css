@@ -20,7 +20,7 @@
 .login-title {
   font-weight: bold;
   font-size: 24px;
-  color: #008DDA;
+  color: #008dda;
   margin-bottom: 40px;
 }
 
@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   width: 268px;
-  color: #C9C9C9;
+  color: #c9c9c9;
 }
 
 .login-input input {
@@ -36,12 +36,12 @@
   height: 30px;
   border-style: solid;
   border-width: 1px;
-  border-color: #C9C9C9;
+  border-color: #c9c9c9;
   border-radius: 3px;
   font-size: 15px;
 }
 .login-input input::placeholder {
-  color: #BDBDBD;
+  color: #bdbdbd;
 }
 
 .login-input-pw {
@@ -50,29 +50,38 @@
 
 .login-button {
   margin-top: 25px;
-  background-color: #52B6FF;
+  background-color: #52b6ff;
   border-radius: 10px;
   border: none;
   width: 268px;
   height: 40px;
   font-size: 18px;
   font-weight: bold;
-  color: #FFFDF7;
+  color: #fffdf7;
+  cursor: pointer;
 }
 
-.login-bottom {
+.login-bottom-menu {
   display: flex;
   justify-content: center;
   margin-top: 25px;
   width: 268px;
-  color: #BDBDBD;
+  color: #bdbdbd;
+  cursor: pointer;
 }
 .login-bottom-findid {
   padding-right: 10px;
 }
 .login-bottom-findpw {
   padding: 0 10px;
-} 
+}
 .login-bottom-join {
   padding-left: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 10px;
+  margin-top: 5px;
+  margin-left: 5px;
 }
