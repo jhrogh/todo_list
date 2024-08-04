@@ -27,10 +27,20 @@
 
 .join-input {
   display: flex;
+  flex-direction: column; /* 수정된 부분: 수직 방향으로 정렬 */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  width: 100%;
+  /* height: 45px; */
+}
+
+.join-input-group {
+  display: flex;
+  flex-direction: row; /* 수정된 부분: label과 input을 수평으로 배치 */
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 45px;
+  margin-top: 10px;
 }
 
 .join-input label {
@@ -68,6 +78,7 @@
   font-weight: bold;
   color: #fffdf7;
   padding: 5px 10px;
+  margin-top: 4px;
 }
 
 .join-button {
@@ -81,4 +92,12 @@
   font-weight: bold;
   color: #fffdf7;
   padding: 0;
+}
+
+.error-message {
+  color: red;
+  font-size: 10px;
+  margin-bottom: 0;
+  margin-right: 5px;
+  text-align: right;
 }

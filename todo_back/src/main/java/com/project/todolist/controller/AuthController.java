@@ -115,28 +115,6 @@ public class AuthController {
 
     @PostMapping("/join")       // 회원가입 - 가입하기
     public ResponseEntity<?> join(@RequestBody JoinDto joinDto) {
-        // 1. 아이디 중복 판단
-        Boolean isNewId = memberRepository.findByMemberId(joinDto.getMemberId()).isEmpty();     // T: 신규 / F: 기존
-        // 2-1. 중복인 경우: 400 에러
-        // 2-2. 중복 아닌 경우 아래 진행
-        // 3. memberId, name, password, email -> JoinMember 테이블 저장
-
-        if(isNewId) {  // 기존회원
-            // 3. memberId, name, password, email -> JoinMember 테이블 저장
-            joinMember.saveMember(joinDto);
-
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "success");
-            responseBody.put("message", "Registration successful");
-
-            return ResponseEntity.ok().body(responseBody);
-        }
-        else {  // 400 error (아이디 중복)
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
-            responseBody.put("message", "MemberId already taken or email not verified");
-
-            return ResponseEntity.badRequest().body(responseBody);
-        }
+        return joinMember.saveMember(joinDto);
     }
 }

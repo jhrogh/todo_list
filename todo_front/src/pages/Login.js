@@ -10,7 +10,7 @@ function Login() {
   };
 
   const handleKeyDown = e => {
-    if (e.key === '') {
+    if (e.key === ' ') {
       e.preventDefault();
     }
   };
@@ -19,7 +19,7 @@ function Login() {
     memberId: '',
     password: '',
   });
-  
+
   const [error, setError] = useState({ memberId: '', password: '' });
 
   const handleInput = e => {
@@ -27,32 +27,39 @@ function Login() {
     let processedValue = value;
     let errorMessage = '';
 
-    if (name === 'memberId') {
-      if (value.length > 12) {
-        processedValue = value.slice(0, 12);
-        errorMessage = '최대 12자 입력 가능';
-      } else {
-        const memberIdRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{0,12}$/;
-        if (!memberIdRegex.test(value)) {
-          errorMessage = '영어와 숫자 필수, 최대 12자 입력 가능';
+    if (value === '') {
+      setError({ ...error, [name]: '' });
+    } else {
+      // 아이디 유효성 검사
+      if (name === 'memberId') {
+        if (value.length > 12) {
+          processedValue = value.slice(0, 12);
+          errorMessage = '최대 12자 입력 가능';
+        } else {
+          const memberIdRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{0,12}$/;
+          if (!memberIdRegex.test(value)) {
+            errorMessage = '영어와 숫자 필수, 최대 12자 입력 가능';
+          }
         }
       }
-    } else if (name === 'password') {
-      if (value.length > 12) {
-        processedValue = value.slice(0, 12);
-        errorMessage = '8자 이상 12자 이하 입력 가능';
-      } else {
-        const passwordRegex =
-          /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+=-]{8,12}$/;
-        if (processedValue.length < 8) {
+      // 비밀번호 유효성 검사
+      else if (name === 'password') {
+        if (value.length > 12) {
+          processedValue = value.slice(0, 12);
           errorMessage = '8자 이상 12자 이하 입력 가능';
-        } else if (!passwordRegex.test(processedValue)) {
-          errorMessage = '영어와 숫자 필수, 특수문자는 선택 입력';
+        } else {
+          const passwordRegex =
+            /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+=-]{8,12}$/;
+          if (processedValue.length < 8) {
+            errorMessage = '8자 이상 12자 이하 입력 가능';
+          } else if (!passwordRegex.test(processedValue)) {
+            errorMessage = '영어와 숫자 필수, 특수문자는 선택 입력';
+          }
         }
       }
+      setError({ ...error, [name]: errorMessage });
     }
     setInputValues({ ...inputValues, [name]: processedValue });
-    setError({ ...error, [name]: errorMessage });
   };
 
   return (
