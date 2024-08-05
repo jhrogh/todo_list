@@ -32,4 +32,6 @@ public class JoinDto {
     @NotNull
     @Email
     private String email;
+
+    private String code;
 }

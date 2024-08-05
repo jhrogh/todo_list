@@ -49,6 +49,26 @@
   font-size: 15px;
 }
 
+.findpw-email {
+  display: flex;
+  margin-left: 195px;
+  margin-top: 3px;
+}
+
+.findpw-button-email {
+  justify-content: center;
+  align-items: center;
+  background-color: #52b6ff;
+  border-radius: 10px;
+  border: none;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fffdf7;
+  padding: 5px 10px;
+  margin-top: 4px;
+  cursor: pointer;
+}
+
 .findpw-button {
   margin: 20px 0 10px 0;
   background-color: #52b6ff;
@@ -59,4 +79,5 @@
   font-size: 18px;
   font-weight: bold;
   color: #fffdf7;
+  cursor: pointer;
 }

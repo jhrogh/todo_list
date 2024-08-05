@@ -73,7 +73,7 @@ public class AuthController {
 
     @PostMapping("/join/verify-email")      // 회원가입 - 이메일 인증
     public ResponseEntity<?> verifyEmail(@RequestBody VerifyEmailDto verifyEmailDto) {
-        verifyEmail.saveEmail(verifyEmailDto);
+        verifyEmail.sendEmailCode(verifyEmailDto);
 
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("status", "success");
@@ -83,7 +83,7 @@ public class AuthController {
     }
 
     @GetMapping("/join/verify-email/code")
-    public ResponseEntity<?> verifyEmailLink(@RequestParam("code") String code) {
+    public ResponseEntity<?> verifyEmailCode(@RequestParam("code") String code) {
         return verifyEmail.checkEmailToken(code);
     }
 

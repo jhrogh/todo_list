@@ -1,6 +1,7 @@
 package com.project.todolist.service;
 
 import com.project.todolist.dto.JoinDto;
+import com.project.todolist.entity.EmailVerification;
 import com.project.todolist.entity.Member;
 import com.project.todolist.repository.EmailVerificationRepository;
 import com.project.todolist.repository.MemberRepository;
@@ -8,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ public class JoinMember {
     private final EmailVerificationRepository emailVerificationRepository;
 
     public ResponseEntity<?> saveMember(JoinDto joinDto) {
+        String verificationCode = joinDto.getCode();
+        Optional<EmailVerification> emailVerificationOpt = emailVerificationRepository.findByVerificationCode(verificationCode);
         Boolean isNewId = memberRepository.findByMemberId(joinDto.getMemberId()).isEmpty();     // T: 신규 / F: 기존
 
         if(isNewId) {  // 신규 가입
@@ -42,6 +46,11 @@ public class JoinMember {
             member.setCreateAt(LocalDateTime.now());
 
             memberRepository.save(member);
+
+            EmailVerification emailVerification = emailVerificationOpt.get();
+            // EmailVerification과의 관계 설정
+            emailVerification.setMember(member);
+            emailVerificationRepository.save(emailVerification);
 
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("status", "success");

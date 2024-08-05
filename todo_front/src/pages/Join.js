@@ -242,6 +242,7 @@ function Join() {
           name: inputValues.name,
           password: inputValues.password,
           email: inputValues.email,
+          code: inputValues.emailCode,
         }),
       });
 
@@ -361,7 +362,7 @@ function Join() {
               <label></label>
               <input
                 className="join-input-email-code"
-                type="emailCode"
+                type="text"
                 name="emailCode"
                 placeholder="인증번호"
                 value={inputValues.emailCode}
@@ -382,13 +383,21 @@ function Join() {
               disabled={emailVerified}
               style={{ backgroundColor: emailVerified ? '#c9c9c9' : '#52b6ff' }}
             >
-              인증코드
+              코드 확인
             </button>
           </div>
         )}
         <button className="join-button" onClick={handleSubmit}>
           가입하기
         </button>
+        <div className="login-bottom-menu">
+          <div
+            className="login-bottom-findid"
+            onClick={() => navigate('/')}
+          >
+            로그인하기
+          </div>          
+        </div>
       </div>
     </div>
   );

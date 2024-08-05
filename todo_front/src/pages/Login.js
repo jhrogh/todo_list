@@ -136,21 +136,21 @@ function Login() {
         <div className="login-bottom-menu">
           <div
             className="login-bottom-findid"
-            onClick={() => navigateTo('/find/id')}
+            onClick={() => navigate('/find/id')}
           >
             아이디 찾기
           </div>
           <div className="login-bottom-border1">|</div>
           <div
             className="login-bottom-findpw"
-            onClick={() => navigateTo('find/pw')}
+            onClick={() => navigate('/find/pw')}
           >
             비밀번호 찾기
           </div>
           <div className="login-bottom-border2">|</div>
           <div
             className="login-bottom-join"
-            onClick={() => navigateTo('/join')}
+            onClick={() => navigate('/join')}
           >
             회원가입
           </div>
