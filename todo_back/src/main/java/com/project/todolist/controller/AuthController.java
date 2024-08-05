@@ -1,10 +1,11 @@
 package com.project.todolist.controller;
 
 import com.project.todolist.dto.JoinDto;
+import com.project.todolist.dto.LoginDto;
 import com.project.todolist.dto.VerifyEmailDto;
-import com.project.todolist.repository.MemberRepository;
-import com.project.todolist.service.HashPassword;
+import com.project.todolist.service.CheckLogin;
 import com.project.todolist.service.JoinMember;
+import com.project.todolist.service.VerifyEmail;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +15,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class AuthController {
-    private final MemberRepository memberRepository;
-    private final HashPassword hashPassword;
     private final JoinMember joinMember;
+    private final VerifyEmail verifyEmail;
+    private final CheckLogin checkLogin;
 
     @GetMapping("/check-auth")      // 로그인 인증 여부
     public ResponseEntity<?> checkAuth() {
@@ -65,52 +67,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")      // 로그인하기
-    public ResponseEntity<?> login() {
-        Boolean isLoginSuccessful = null;
-
-        if(isLoginSuccessful) {
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "success");
-            responseBody.put("message", "Login successful");
-            responseBody.put("token", "jwt token 전달");
-
-            return ResponseEntity.ok().body(responseBody);
-        }
-        else {
-            // 비밀번호 불일치 (401)
-//            Map<String, Object> responseBody = new HashMap<>();
-//            responseBody.put("status", "error");
-//            responseBody.put("message", "Invalid Id or password");
-//
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
-
-            // 아이디 없음 (404)
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
-            responseBody.put("message", "Not Found Id");
-
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
-        }
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+        return checkLogin.checkMember(loginDto);
     }
 
     @PostMapping("/join/verify-email")      // 회원가입 - 이메일 인증
     public ResponseEntity<?> verifyEmail(@RequestBody VerifyEmailDto verifyEmailDto) {
-        Boolean isVerifiedEmail = null;
+        verifyEmail.saveEmail(verifyEmailDto);
 
-        if(isVerifiedEmail) {
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "success");
-            responseBody.put("message", "Email verified successfully");
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", "success");
+        responseBody.put("message", "Email verified successfully");
 
-            return ResponseEntity.ok().body(responseBody);
-        }
-        else {  // 400 error
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
-            responseBody.put("message", "Invalid verification token");
+        return ResponseEntity.ok().body(responseBody);
+    }
 
-            return ResponseEntity.badRequest().body(responseBody);
-        }
+    @GetMapping("/join/verify-email/code")
+    public ResponseEntity<?> verifyEmailLink(@RequestParam("code") String code) {
+        return verifyEmail.checkEmailToken(code);
     }
 
     @PostMapping("/join")       // 회원가입 - 가입하기

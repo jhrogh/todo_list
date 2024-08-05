@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../assets/styles/JoinStyle.css';
 import { useNavigate } from 'react-router-dom';
 
 function Join() {
   const navigate = useNavigate();
-
-  const navigatoTo = path => {
-    navigate(path);
-  };
 
   const handleKeyDown = e => {
     if (e.key === ' ') {
@@ -21,6 +17,7 @@ function Join() {
     password: '',
     confirmPassword: '',
     email: '',
+    emailCode: '',
   });
 
   const [error, setError] = useState({
@@ -29,6 +26,7 @@ function Join() {
     password: '',
     confirmPassword: '',
     email: '',
+    emailCode: '',
   });
 
   // 아이디 유효성 검사
@@ -64,7 +62,6 @@ function Join() {
       setError({ ...error, [name]: '' });
     } else {
       if (value.length < 2) {
-        // processedValue = value.slice(0, 2);
         errorMessage = '최소 2자 이상 가능';
       } else {
         const nameRegex = /^[a-zA-Zㄱ-ㅎ가-힣]{0,12}$/;
@@ -140,42 +137,20 @@ function Join() {
     setInputValues({ ...inputValues, [name]: processedValue });
   };
 
+  // 이메일 인증코드 유효성 검사
+  const handleInputEmailCode = e => {
+    const { name, value } = e.target;
+    let processedValue = value;
+
+    if (value === '') {
+      setError({ ...error, [name]: '' });
+    }
+    setInputValues({ ...inputValues, [name]: processedValue });
+  };
+
   // 이메일 인증 버튼
   const [emailVerified, setEmailVerified] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setInputValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  useEffect(() => {
-    // 이메일 인증이 완료된 후 리다이렉트된 경우
-    if (window.location.search.includes('token=')) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get('token');
-      if (token) {
-        verifyEmail(token);
-      }
-    }
-  }, []);
-
-  const verifyEmail = async (token) => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/join/verify-email/link?token=${token}`);
-      const data = await response.json();
-      if (data.status === 'success') {
-        setEmailVerified(true);
-        alert('이메일 인증이 완료되었습니다.');
-      } else {
-        alert('이메일 인증에 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('Failed to verify email', error);
-    }
-  };
+  const [sendCode, setSendCode] = useState(false); // 추가
 
   const handleEmailVerification = async () => {
     if (inputValues.email === '') {
@@ -184,16 +159,20 @@ function Join() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/join/verify-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: inputValues.email }),
-      });
+      const response = await fetch(
+        'https://localhost:8443/api/join/verify-email',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: inputValues.email }),
+        },
+      );
 
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
-        alert('이메일 인증 링크가 전송되었습니다.');
+        alert('이메일 인증 코드가 전송되었습니다.');
+        setSendCode(true);
       } else {
         alert('이메일 인증에 실패했습니다.');
       }
@@ -202,9 +181,40 @@ function Join() {
     }
   };
 
+  const handleEmailCode = async () => {
+    if (inputValues.emailCode === '') {
+      alert('인증코드를 정확히 입력해주세요.');
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://localhost:8443/api/join/verify-email/code?code=${encodeURIComponent(
+          inputValues.emailCode,
+        )}`,
+      );
+
+      if (response.ok) {
+        alert('인증이 완료되었습니다.');
+        setEmailVerified(true);
+      } else {
+        alert('이메일 인증에 실패했습니다.');
+        setInputValues(prev => ({
+          ...prev,
+          email: '',
+        }));
+        document.querySelector('input[name="email"]').focus();
+      }
+    } catch (error) {
+      console.error('Failed to email code', error);
+    }
+  };
+
   // 가입하기 버튼
   const handleSubmit = async () => {
-    const allFieldsFilled = Object.values(inputValues).every(value => value !== '');
+    const allFieldsFilled = Object.values(inputValues).every(
+      value => value !== '',
+    );
     const noErrors = Object.values(error).every(errorMsg => errorMsg === '');
     const emailVerificationComplete = emailVerified;
 
@@ -224,7 +234,7 @@ function Join() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/join', {
+      const response = await fetch('https://localhost:8443/api/join', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -242,7 +252,7 @@ function Join() {
         navigate('/');
       } else {
         alert('이미 사용중인 아이디 입니다.');
-        setInputValues((prev) => ({
+        setInputValues(prev => ({
           ...prev,
           memberId: '',
         }));
@@ -333,12 +343,49 @@ function Join() {
           </div>
           {error.email && <p className="error-message">{error.email}</p>}
         </div>
-        <div className="join-email">
-          <button className="join-button-email"
-            onClick={handleEmailVerification}
-            disabled={emailVerified}
-            style={{ backgroundColor: emailVerified ? '#c9c9c9' : '#52b6ff' }}>인증하기</button>
-        </div>
+        {!sendCode && (
+          <div className="join-email">
+            <button
+              className="join-button-email"
+              onClick={handleEmailVerification}
+              disabled={emailVerified}
+              style={{ backgroundColor: emailVerified ? '#c9c9c9' : '#52b6ff' }}
+            >
+              인증하기
+            </button>
+          </div>
+        )}
+        {sendCode && (
+          <div className="join-input">
+            <div className="join-input-group">
+              <label></label>
+              <input
+                className="join-input-email-code"
+                type="emailCode"
+                name="emailCode"
+                placeholder="인증번호"
+                value={inputValues.emailCode}
+                onKeyDown={handleKeyDown}
+                onInput={handleInputEmailCode}
+              />
+            </div>
+            {error.emailCode && (
+              <p className="error-message">{error.emailCode}</p>
+            )}
+          </div>
+        )}
+        {sendCode && (
+          <div className="join-email">
+            <button
+              className="join-button-email"
+              onClick={handleEmailCode}
+              disabled={emailVerified}
+              style={{ backgroundColor: emailVerified ? '#c9c9c9' : '#52b6ff' }}
+            >
+              인증코드
+            </button>
+          </div>
+        )}
         <button className="join-button" onClick={handleSubmit}>
           가입하기
         </button>

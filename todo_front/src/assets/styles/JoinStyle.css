@@ -79,6 +79,7 @@
   color: #fffdf7;
   padding: 5px 10px;
   margin-top: 4px;
+  cursor: pointer;
 }
 
 .join-button {
@@ -92,6 +93,7 @@
   font-weight: bold;
   color: #fffdf7;
   padding: 0;
+  cursor: pointer;
 }
 
 .error-message {

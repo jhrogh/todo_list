@@ -62,6 +62,48 @@ function Login() {
     setInputValues({ ...inputValues, [name]: processedValue });
   };
 
+  const handleLogin = async () => {
+    const allFieldsFilled = Object.values(inputValues).every(
+      value => value !== '',
+    );
+    const noErrors = Object.values(error).every(errorMsg => errorMsg === '');
+
+    if (!allFieldsFilled) {
+      alert('모든 값을 입력해주세요.');
+      return;
+    }
+
+    if (!noErrors) {
+      alert('입력한 내용을 다시 확인해주세요.');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://localhost:8443/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          memberId: inputValues.memberId,
+          password: inputValues.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.status === 'success') {
+        navigate('/home');
+      } else {
+        if (data.status === 'error' && data.message === 'Failed Pw') {
+          alert('비밀번호가 일치하지 않습니다.');
+        } else if (data.status === 'error' && data.message === 'Not Found Id') {
+          alert('가입된 아이디가 아닙니다. 회원가입 후 이용해주세요 :)');
+        }
+      }
+    } catch (error) {
+      console.error('Failed to login', error);
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-body">
@@ -88,7 +130,7 @@ function Login() {
           />
           {error.password && <p className="error-message">{error.password}</p>}
         </div>
-        <button className="login-button" onClick={() => navigateTo('/home')}>
+        <button className="login-button" onClick={handleLogin}>
           로그인
         </button>
         <div className="login-bottom-menu">

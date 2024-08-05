@@ -2,8 +2,10 @@ package com.project.todolist.service;
 
 import com.project.todolist.dto.JoinDto;
 import com.project.todolist.entity.Member;
+import com.project.todolist.repository.EmailVerificationRepository;
 import com.project.todolist.repository.MemberRepository;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class JoinMember {
     private final MemberRepository memberRepository;
     private final HashPassword hashPassword;
+    private final EmailVerificationRepository emailVerificationRepository;
 
     public ResponseEntity<?> saveMember(JoinDto joinDto) {
         Boolean isNewId = memberRepository.findByMemberId(joinDto.getMemberId()).isEmpty();     // T: 신규 / F: 기존
@@ -35,6 +38,8 @@ public class JoinMember {
             member.setName(name);
             member.setPassword(password);
             member.setEmail(email);
+            member.setEmailVerified(true);
+            member.setCreateAt(LocalDateTime.now());
 
             memberRepository.save(member);
 

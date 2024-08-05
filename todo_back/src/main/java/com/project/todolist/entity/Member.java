@@ -40,12 +40,12 @@ public class Member {
     private String email;
 
     @Column(nullable = false)
-    private Boolean emailVerified;
+    private Boolean emailVerified = false;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime createAt;
 
     @OneToOne(mappedBy = "member")
