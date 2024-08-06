@@ -5,8 +5,6 @@ import com.project.todolist.dto.FindIdDto;
 import com.project.todolist.dto.FindPwDto;
 import com.project.todolist.service.FindInfo;
 import com.project.todolist.service.VerifyEmail;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,24 +41,6 @@ public class FindInfoController {
 
     @PostMapping("/changepw")
     public ResponseEntity<?> changePw(@RequestBody ChangePwDto changePwDto) {
-        findInfo.changePassword(changePwDto);
-
-
-        Boolean isChangePw = null;
-
-        if(isChangePw) {
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "success");
-            responseBody.put("message", "Password successfully change");
-
-            return ResponseEntity.ok().body(responseBody);
-        }
-        else {  // 400 error
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
-            responseBody.put("message", "Password reset token is invalid or expired");
-
-            return ResponseEntity.badRequest().body(responseBody);
-        }
+        return findInfo.changePassword(changePwDto);
     }
 }

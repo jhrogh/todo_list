@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChangePwDto {
     private String password;
-    private String confirmPw;
+    private String memberId;
 }

@@ -7,6 +7,7 @@ import com.project.todolist.entity.EmailVerification;
 import com.project.todolist.entity.Member;
 import com.project.todolist.repository.EmailVerificationRepository;
 import com.project.todolist.repository.MemberRepository;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class FindInfo {
     private final MemberRepository memberRepository;
     private final CreateEmailCode createEmailCode;
     private final EmailVerificationRepository emailVerificationRepository;
+    private final HashPassword hashPassword;
 
     public ResponseEntity<?> searchId(FindIdDto findIdDto) {
         String name = findIdDto.getName();
@@ -78,6 +80,22 @@ public class FindInfo {
     }
 
     public ResponseEntity<?> changePassword(ChangePwDto changePwDto) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" ");
+        String memberId = changePwDto.getMemberId();
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+        Member member = optionalMember.get();
+        String newHashPassword;
+        try {
+            newHashPassword = hashPassword.hashPassword(changePwDto.getPassword());
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        member.setPassword(newHashPassword);
+        memberRepository.save(member);
+
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", "success");
+        responseBody.put("message", "Password successfully change");
+
+        return ResponseEntity.ok().body(responseBody);
     }
 }
