@@ -1,4 +1,5 @@
 import React from 'react';
+import Nav from '../components/Nav';
 import '../assets/styles/SaveListStyle.css';
 
 function SaveList() {
@@ -10,6 +11,8 @@ function SaveList() {
   ];
 
   return (
+    <>
+    <Nav />
     <div className="todo-list-container">
       {posts.map(post => (
         <div key={post.id} className="todo-item">
@@ -29,6 +32,7 @@ function SaveList() {
         </div>
       ))}
     </div>
+    </>
   );
 }
 

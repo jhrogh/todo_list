@@ -1,7 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation  } from 'react-router-dom';
 import Header from './components/Header';
-import Nav from './components/Nav';
 import Footer from './components/Footer';
 import ChangePw from './pages/ChangePw';
 import FindId from './pages/FindId';
@@ -13,12 +12,15 @@ import Mypage from './pages/Mypage';
 import SaveList from './pages/SaveList';
 import './App.css';
 
-function App() {
+function AppWrapper() {
+  const location = useLocation();
+  const path = location.pathname;
+  const show = /^(\/home|\/mypage|\/savelist)/.test(path);
+
   return (
-    <Router>
       <div className="app">
         <Header />
-        <Nav />
+        {/* <Nav /> */}
         <main className="main-content">
           <Routes>
             <Route path="/change/pw" element={<ChangePw />} />
@@ -31,8 +33,17 @@ function App() {
             <Route path="/savelist" element={<SaveList />} />
           </Routes>
         </main>
-        <Footer />
+        {show && <Footer />}
       </div>
+  );
+}
+
+
+
+function App() {
+  return (
+    <Router>
+      <AppWrapper />
     </Router>
   );
 }

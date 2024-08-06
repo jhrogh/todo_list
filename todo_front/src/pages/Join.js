@@ -164,6 +164,7 @@ function Join() {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ email: inputValues.email }),
         },
       );
@@ -191,7 +192,13 @@ function Join() {
       const response = await fetch(
         `https://localhost:8443/api/join/verify-email/code?code=${encodeURIComponent(
           inputValues.emailCode,
-        )}`,
+        )}`,{
+          method: 'GET', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', 
+        }
       );
 
       if (response.ok) {
@@ -237,6 +244,7 @@ function Join() {
       const response = await fetch('https://localhost:8443/api/join', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           memberId: inputValues.memberId,
           name: inputValues.name,

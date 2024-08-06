@@ -17,7 +17,7 @@ function FindPw() {
   };
 
   const handleEmailVerification = async () => {
-    if (inputValues.email == '' || inputValues.memberId == '') {
+    if (inputValues.email === '' || inputValues.memberId === '') {
       alert('모든 값을 입력해주세요.');
       return;
     }
@@ -28,6 +28,7 @@ function FindPw() {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({
             email: inputValues.email,
             memberId: inputValues.memberId,
@@ -61,7 +62,13 @@ function FindPw() {
       const response = await fetch(
         `https://localhost:8443/api/find/pw/verify-email/code?code=${encodeURIComponent(
           inputValues.emailCode,
-        )}`,
+        )}`,{
+          method: 'GET', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', 
+        }
       );
 
       if (response.ok) {

@@ -24,6 +24,7 @@ function FindId() {
       const response = await fetch('https://localhost:8443/api/find/id', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           name: inputValues.name,
           email: inputValues.email,

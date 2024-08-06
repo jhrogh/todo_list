@@ -1,4 +1,5 @@
 import React from 'react';
+import Nav from '../components/Nav';
 import '../assets/styles/MypageStyle.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +11,8 @@ function Mypage() {
   };
 
   return (
+    <>
+    <Nav />
     <div className="mypage-container">
       <div className="mypage-body">
         <div className="mypage-title">마 이 페 이 지</div>
@@ -34,6 +37,7 @@ function Mypage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

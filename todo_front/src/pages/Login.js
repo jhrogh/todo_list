@@ -5,10 +5,6 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
   const navigate = useNavigate();
 
-  const navigateTo = path => {
-    navigate(path);
-  };
-
   const handleKeyDown = e => {
     if (e.key === ' ') {
       e.preventDefault();
@@ -62,6 +58,7 @@ function Login() {
     setInputValues({ ...inputValues, [name]: processedValue });
   };
 
+  // 로그인하기 버튼
   const handleLogin = async () => {
     const allFieldsFilled = Object.values(inputValues).every(
       value => value !== '',
@@ -82,6 +79,7 @@ function Login() {
       const response = await fetch('https://localhost:8443/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           memberId: inputValues.memberId,
           password: inputValues.password,
@@ -93,7 +91,7 @@ function Login() {
       if (response.ok && data.status === 'success') {
         navigate('/home');
       } else {
-        if (data.status === 'error' && data.message === 'Failed Pw') {
+        if (data.status === 'error' && data.message === 'Failed Password') {
           alert('비밀번호가 일치하지 않습니다.');
         } else if (data.status === 'error' && data.message === 'Not Found Id') {
           alert('가입된 아이디가 아닙니다. 회원가입 후 이용해주세요 :)');
@@ -148,10 +146,7 @@ function Login() {
             비밀번호 찾기
           </div>
           <div className="login-bottom-border2">|</div>
-          <div
-            className="login-bottom-join"
-            onClick={() => navigate('/join')}
-          >
+          <div className="login-bottom-join" onClick={() => navigate('/join')}>
             회원가입
           </div>
         </div>
