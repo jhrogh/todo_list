@@ -1,11 +1,15 @@
 package com.project.todolist.controller;
 
+import com.project.todolist.dto.CheckMemberDto;
 import com.project.todolist.dto.JoinDto;
 import com.project.todolist.dto.LoginDto;
 import com.project.todolist.dto.VerifyEmailDto;
 import com.project.todolist.service.CheckLogin;
 import com.project.todolist.service.JoinMember;
+import com.project.todolist.service.JwtToken;
 import com.project.todolist.service.VerifyEmail;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -25,17 +29,29 @@ public class AuthController {
     private final JoinMember joinMember;
     private final VerifyEmail verifyEmail;
     private final CheckLogin checkLogin;
+    private final JwtToken jwtToken;
 
     @GetMapping("/check-auth")      // 로그인 인증 여부
-    public ResponseEntity<?> checkAuth() {
-        Boolean isLoggedIn = null;
+    public ResponseEntity<?> checkAuth(HttpServletRequest request) {
+        String token = jwtToken.findToken(request);
 
-        if(isLoggedIn) {
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "success");
-            responseBody.put("message", "User is authenticated");
+        if(token != null) {
+            boolean isValidateToken = jwtToken.validateToken(token);        // false: 만료됨
 
-            return ResponseEntity.ok().body(responseBody);
+            if(isValidateToken) {
+                Map<String, Object> responseBody = new HashMap<>();
+                responseBody.put("status", "success");
+                responseBody.put("message", "User is authenticated");
+
+                return ResponseEntity.ok().body(responseBody);
+            }
+            else {
+                Map<String, Object> responseBody = new HashMap<>();
+                responseBody.put("status", "failed");
+                responseBody.put("message", "Token is not Validate");
+
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
+            }
         }
         else {
             Map<String, Object> responseBody = new HashMap<>();
@@ -67,8 +83,26 @@ public class AuthController {
     }
 
     @PostMapping("/login")      // 로그인하기
-    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        return checkLogin.checkMember(loginDto);
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+        CheckMemberDto result = checkLogin.checkMember(loginDto);
+
+        if(result.isSuccess()) {
+            String token = jwtToken.createToken(result.getMemberId());
+            jwtToken.saveToken(response, token);
+
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("status", "success");
+            responseBody.put("message", result.getMessage());
+
+            return ResponseEntity.ok().body(responseBody);
+        } else{
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("status", "error");
+            responseBody.put("message", result.getMessage());
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+        }
+
     }
 
     @PostMapping("/join/verify-email")      // 회원가입 - 이메일 인증
