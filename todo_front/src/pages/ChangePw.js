@@ -24,19 +24,22 @@ function ChangePw() {
       return;
     }
     try {
+      const memberId = localStorage.getItem('memberId');
       const response = await fetch('https://localhost:8443/api/find/changepw', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           password: inputValues.password,
-          confirmPw: inputValues.confirmPw,
+          memberId: memberId,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
-        alert('회원가입이 완료되었습니다. 로그인 후 이용해주세요 :)');
+        alert('비밀번호가 변경되었습니다.');
+        localStorage.removeItem('memberId');
+        console.log(localStorage.getItem('memberId'));
         navigate('/');
       } else {
         alert('이미 사용중인 아이디 입니다.');

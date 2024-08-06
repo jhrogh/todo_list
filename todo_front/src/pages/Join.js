@@ -198,12 +198,12 @@ function Join() {
         alert('인증이 완료되었습니다.');
         setEmailVerified(true);
       } else {
-        alert('이메일 인증에 실패했습니다.');
+        alert('인증코드가 틀립니다.');
         setInputValues(prev => ({
           ...prev,
-          email: '',
+          emailCode: '',
         }));
-        document.querySelector('input[name="email"]').focus();
+        document.querySelector('input[name="emailCode"]').focus();
       }
     } catch (error) {
       console.error('Failed to email code', error);
@@ -340,6 +340,7 @@ function Join() {
               value={inputValues.email}
               onKeyDown={handleKeyDown}
               onInput={handleInputEmail}
+              readOnly={emailVerified}
             />
           </div>
           {error.email && <p className="error-message">{error.email}</p>}
@@ -368,6 +369,7 @@ function Join() {
                 value={inputValues.emailCode}
                 onKeyDown={handleKeyDown}
                 onInput={handleInputEmailCode}
+                readOnly={emailVerified}
               />
             </div>
             {error.emailCode && (

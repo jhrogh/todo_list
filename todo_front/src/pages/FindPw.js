@@ -66,14 +66,15 @@ function FindPw() {
 
       if (response.ok) {
         alert('인증이 완료되었습니다.');
+        localStorage.setItem('memberId', inputValues.memberId);
         navigate('/change/pw');
       } else {
-        alert('이메일 인증에 실패했습니다.');
+        alert('인증코드가 틀립니다.');
         setInputValues(prev => ({
           ...prev,
-          email: '',
+          emailCode: '',
         }));
-        document.querySelector('input[name="email"]').focus();
+        document.querySelector('input[name="emailCode"]').focus();
       }
     } catch (error) {
       console.error('Failed to Email Verification', error);
