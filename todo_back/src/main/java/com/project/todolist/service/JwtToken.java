@@ -3,11 +3,15 @@ package com.project.todolist.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.security.Key;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,22 +22,31 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class JwtToken {
     @Value("${jwt.secret}")
-    private String secretKey;
+    private String secretKeyBase64;
+
+    private Key key;
     private long expirationTime = 3600000; // 1시간
+
+    @PostConstruct
+    public void init() {
+        // Base64 디코딩하여 키 객체 생성
+        byte[] decodedKey = Base64.getDecoder().decode(secretKeyBase64);
+        key = Keys.hmacShaKeyFor(decodedKey);
+    }
 
     // 토큰 생성
     public String createToken(String memberId) {
         return Jwts.builder()
                 .setSubject(memberId)
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     // 토큰 유효성 체크
     public Claims getClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -46,6 +59,12 @@ public class JwtToken {
 
     public boolean validateToken(String token) {
         return !isTokenExpired(token);  // 만료된 토큰 false
+    }
+
+    // 토큰에서 사용자 정보(아이디) 추출
+    public String findMemberId(String token) {
+        Claims claims = getClaims(token);
+        return claims.getSubject();
     }
 
     // 토큰 쿠키 저장
@@ -73,4 +92,5 @@ public class JwtToken {
         }
         return null;
     }
+
 }

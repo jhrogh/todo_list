@@ -31,7 +31,7 @@ public class AuthController {
     private final CheckLogin checkLogin;
     private final JwtToken jwtToken;
 
-    @GetMapping("/check-auth")      // 로그인 인증 여부
+    @GetMapping("/check-auth")      // 로그인 인증 여부 (jwt 토큰)
     public ResponseEntity<?> checkAuth(HttpServletRequest request) {
         String token = jwtToken.findToken(request);
 

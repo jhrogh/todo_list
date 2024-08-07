@@ -1,5 +1,8 @@
 package com.project.todolist.controller;
 
+import com.project.todolist.service.JwtToken;
+import com.project.todolist.service.Mypage;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -13,20 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/mypage")
 public class MypageController {
+    private final Mypage mypage;
+    private final JwtToken jwtToken;
+
     @GetMapping("/show")
-    public ResponseEntity<?> show() {
-        // 사용자 정보 생성
-        Map<String, Object> user = new HashMap<>();
-        user.put("memberId", "example memberId");
-        user.put("name", "Example Name");
-        user.put("email", "example@example.com");
-
-        // 응답 본문 생성
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", "success");
-        responseBody.put("user", user);
-
-        return ResponseEntity.ok().body(responseBody);
+    public ResponseEntity<?> show(HttpServletRequest request) {
+        return mypage.showMyInfo(request);
     }
 
     @PostMapping("/verify-email")
