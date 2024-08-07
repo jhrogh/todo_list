@@ -6,7 +6,8 @@ function Join() {
   const navigate = useNavigate();
 
   const handleKeyDown = e => {
-    if (e.key === ' ') {
+    if (e.key === ' ' || e.key === 'Enter') {
+      handleSubmit();
       e.preventDefault();
     }
   };

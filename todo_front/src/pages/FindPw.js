@@ -11,6 +11,20 @@ function FindPw() {
     emailCode: '',
   });
 
+  const handleKeyDown = e => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      handleEmailVerification();
+      e.preventDefault();
+    }
+  };
+
+  const handleKeyDown2 = e => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      handleEmailCode();
+      e.preventDefault();
+    }
+  };
+
   const handleInput = e => {
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
@@ -99,6 +113,7 @@ function FindPw() {
             type="email"
             name="email"
             value={inputValues.email}
+            onKeyDown={handleKeyDown}
             onInput={handleInput}
           />
         </div>
@@ -109,6 +124,7 @@ function FindPw() {
             type="text"
             name="memberId"
             value={inputValues.memberId}
+            onKeyDown={handleKeyDown}
             onInput={handleInput}
           />
         </div>
@@ -121,6 +137,7 @@ function FindPw() {
               name="emailCode"
               placeholder="인증번호"
               value={inputValues.emailCode}
+              onKeyDown={handleKeyDown2}
               onInput={handleInput}
             />
           </div>

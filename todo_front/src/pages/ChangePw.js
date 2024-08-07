@@ -4,15 +4,25 @@ import { useNavigate } from 'react-router-dom';
 
 function ChangePw() {
   const navigate = useNavigate();
-  const [inputValues, setInputValues] = useState({password: "", confirmPw: ""});
+  const [inputValues, setInputValues] = useState({
+    password: '',
+    confirmPw: '',
+  });
+
+  const handleKeyDown = e => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      handleChangePw();
+      e.preventDefault();
+    }
+  };
 
   const handleInput = e => {
     const { name, value } = e.target;
     setInputValues({ ...inputValues, [name]: value });
-  }
+  };
 
   const handleChangePw = async () => {
-    if(inputValues.password !== inputValues.confirmPw) {
+    if (inputValues.password !== inputValues.confirmPw) {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
@@ -50,10 +60,10 @@ function ChangePw() {
         }));
         document.querySelector('input[name="memberId"]').focus();
       }
-    } catch(error) {
+    } catch (error) {
       console.log('Failed to Change Pw', error);
     }
-  }
+  };
 
   return (
     <div className="changepw-container">
@@ -61,13 +71,29 @@ function ChangePw() {
         <div className="changepw-title">비밀번호 설정</div>
         <div className="changepw-input">
           <label>*비밀번호</label>
-          <input className="changepw-input-pw" type="password" name="password" value={inputValues.password} onInput={handleInput} />
+          <input
+            className="changepw-input-pw"
+            type="password"
+            name="password"
+            value={inputValues.password}
+            onKeyDown={handleKeyDown}
+            onInput={handleInput}
+          />
         </div>
         <div className="changepw-input">
           <label>*비밀번호 확인</label>
-          <input className="changepw-input-pwcheck" type="password" name="confirmPw" value={inputValues.confirmPw} onInput={handleInput} />
+          <input
+            className="changepw-input-pwcheck"
+            type="password"
+            name="confirmPw"
+            value={inputValues.confirmPw}
+            onKeyDown={handleKeyDown}
+            onInput={handleInput}
+          />
         </div>
-        <button className="changepw-button" onClick={handleChangePw}>비밀번호 변경</button>
+        <button className="changepw-button" onClick={handleChangePw}>
+          비밀번호 변경
+        </button>
       </div>
     </div>
   );

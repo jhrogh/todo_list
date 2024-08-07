@@ -14,8 +14,10 @@ function Home() {
       const result = await checkToken(navigate);
 
       if (result === 'success') {
+        console.log('home console success')
         setIsPageVisible(true);
       } else {
+        console.log('home console failed')
         setIsPageVisible(false);
     }
     };

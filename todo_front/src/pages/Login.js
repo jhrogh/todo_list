@@ -6,7 +6,8 @@ function Login() {
   const navigate = useNavigate();
 
   const handleKeyDown = e => {
-    if (e.key === ' ') {
+    if (e.key === ' ' || e.key === 'Enter') {
+      handleLogin();
       e.preventDefault();
     }
   };
@@ -90,6 +91,7 @@ function Login() {
 
       if (response.ok && data.status === 'success') {
         navigate('/home');
+        // navigate('/mypage');
       } else {
         if (data.status === 'error' && data.message === 'Failed Password') {
           alert('비밀번호가 일치하지 않습니다.');

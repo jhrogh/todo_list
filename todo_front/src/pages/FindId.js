@@ -7,6 +7,13 @@ function FindId() {
 
   const [inputValues, setInputValues] = useState({ name: '', email: '' });
 
+  const handleKeyDown = e => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      handleFindId();
+      e.preventDefault();
+    }
+  };
+
   const handleInput = e => {
     const {name, value} = e.target;
     setInputValues({...inputValues, [name]: value})
@@ -54,6 +61,7 @@ function FindId() {
             type="text"
             name="name"
             value={inputValues.name}
+            onKeyDown={handleKeyDown}
             onInput={handleInput}
           />
         </div>
@@ -64,6 +72,7 @@ function FindId() {
             type="email"
             name="email"
             value={inputValues.email}
+            onKeyDown={handleKeyDown}
             onInput={handleInput}
           />
         </div>
