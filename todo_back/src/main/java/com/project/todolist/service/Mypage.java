@@ -34,4 +34,14 @@ public class Mypage {
 
         return ResponseEntity.ok().body(responseBody);
     }
+
+    public String findUserName(HttpServletRequest request) {
+        String token = jwtToken.findToken(request);
+        String memberId = jwtToken.findMemberId(token);
+
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+        Member member = optionalMember.get();
+
+        return member.getName();
+    }
 }

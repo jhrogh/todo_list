@@ -7,6 +7,7 @@ import com.project.todolist.dto.VerifyEmailDto;
 import com.project.todolist.service.CheckLogin;
 import com.project.todolist.service.JoinMember;
 import com.project.todolist.service.JwtToken;
+import com.project.todolist.service.Mypage;
 import com.project.todolist.service.VerifyEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,6 +31,7 @@ public class AuthController {
     private final VerifyEmail verifyEmail;
     private final CheckLogin checkLogin;
     private final JwtToken jwtToken;
+    private final Mypage mypage;
 
     @GetMapping("/check-auth")      // 로그인 인증 여부 (jwt 토큰)
     public ResponseEntity<?> checkAuth(HttpServletRequest request) {
@@ -39,9 +41,10 @@ public class AuthController {
             boolean isValidateToken = jwtToken.validateToken(token);        // false: 만료됨
 
             if(isValidateToken) {
+                String name = mypage.findUserName(request);
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("status", "success");
-                responseBody.put("message", "User is authenticated");
+                responseBody.put("name", name);
 
                 return ResponseEntity.ok().body(responseBody);
             }
@@ -62,25 +65,16 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/check-name")      // 로그인 사용자 이름
-    public ResponseEntity<?> checkName() {
-        Boolean isLoggedIn = null;
-
-        if(isLoggedIn) {
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "success");
-            responseBody.put("memberId", "이름");
-
-            return ResponseEntity.ok().body(responseBody);
-        }
-        else {
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "failed");
-            responseBody.put("memberId", " ");
-
-            return ResponseEntity.ok().body(responseBody);
-        }
-    }
+//    @GetMapping("/check-name")      // 로그인 사용자 이름
+//    public ResponseEntity<?> checkName(HttpServletRequest request) {
+//        String name = mypage.findUserName(request);
+//
+//        Map<String, Object> responseBody = new HashMap<>();
+//        responseBody.put("status", "success");
+//        responseBody.put("name", name);
+//
+//        return ResponseEntity.ok().body(responseBody);
+//    }
 
     @PostMapping("/login")      // 로그인하기
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
