@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkToken } from '../components/CheckToken';
 import Nav from '../components/Nav';
 import '../assets/styles/HomeStyle.css';
 
@@ -8,22 +7,7 @@ function Home() {
   const navigate = useNavigate();
 
   const [isPageVisible, setIsPageVisible] = useState(false);
-
-  useEffect(() => {
-    const verifyToken = async () => {
-      const result = await checkToken(navigate);
-
-      if (result === 'success') {
-        console.log('home console success')
-        setIsPageVisible(true);
-      } else {
-        console.log('home console failed')
-        setIsPageVisible(false);
-    }
-    };
-
-    verifyToken();
-  }, [navigate]);
+  const [userName, setUserName] = useState('');
 
 
   // const [todos, setTodos] = useState([]);
@@ -49,9 +33,9 @@ function Home() {
 
   return (
     <>
-    <Nav />
-      {isPageVisible ? (
-    <div className="home-container">
+    <Nav setIsPageVisible={setIsPageVisible} setUserName={setUserName} />
+      {isPageVisible && (
+        <div className="home-container">
       <div className="home-input-container">
         <input
           type="text"
@@ -98,7 +82,7 @@ function Home() {
         ))}
       </ul>
     </div>
-      ) : null}
+      )}
     </>
   );
 }

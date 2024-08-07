@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import Nav from '../components/Nav';
 import '../assets/styles/SaveListStyle.css';
 
 function SaveList() {
+  const [isPageVisible, setIsPageVisible] = useState(false);
+  const [userName, setUserName] = useState('');
+
   const posts = [
     { id: 1, title: '2024.07.31.16:30' },
     { id: 2, title: '여행 준비물' },
@@ -12,7 +15,8 @@ function SaveList() {
 
   return (
     <>
-    <Nav />
+      <Nav setIsPageVisible={setIsPageVisible} setUserName={setUserName} />
+      {isPageVisible && (
     <div className="todo-list-container">
       {posts.map(post => (
         <div key={post.id} className="todo-item">
@@ -32,6 +36,7 @@ function SaveList() {
         </div>
       ))}
     </div>
+      )}
     </>
   );
 }
