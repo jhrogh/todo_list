@@ -27,20 +27,29 @@ public class FindInfo {
 
     public ResponseEntity<?> searchId(FindIdDto findIdDto) {
         String name = findIdDto.getName();
-        Optional<Member> member = memberRepository.findByName(name);
+        Optional<Member> optionalMember = memberRepository.findByName(name);
 
-        if(member.isPresent()) {
-            String memberId = member.get().getMemberId();
+        if(optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            if (member.getEmail().equals(findIdDto.getEmail())) {
+                String memberId = member.getMemberId();
 
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "success");
-            responseBody.put("memberId", memberId);
+                Map<String, Object> responseBody = new HashMap<>();
+                responseBody.put("status", "success");
+                responseBody.put("memberId", memberId);
 
-            return ResponseEntity.ok().body(responseBody);
+                return ResponseEntity.ok().body(responseBody);
+            } else {
+                Map<String, Object> responseBody = new HashMap<>();
+                responseBody.put("status", "failed");
+                responseBody.put("message", "No matching Email");
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+            }
         }
         else {
             Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "failed");
+            responseBody.put("status", "Not Found");
             responseBody.put("message", "No matching");
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
