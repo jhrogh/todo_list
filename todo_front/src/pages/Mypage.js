@@ -31,7 +31,7 @@ function Mypage() {
   useEffect(() => {
     const showData = async () => {
       try {
-        const response = await fetch('https://localhost:8443/api/mypage/show', {
+        const response = await fetch('http://localhost:8080/api/mypage/show', {
           method: 'GET',
           credentials: 'include',
         });
@@ -56,7 +56,7 @@ function Mypage() {
   const handleDeleteAccount = async () => {
     try {
       const response = await fetch(
-        'https://localhost:8443/api/mypage/delete-account',
+        'http://localhost:8080/api/mypage/delete-account',
         {
           method: 'DELETE',
           headers: {

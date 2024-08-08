@@ -38,7 +38,7 @@ function FindPw() {
 
     try {
       const response = await fetch(
-        'https://localhost:8443/api/find/pw/verify-email',
+        'http://localhost:8080/api/find/pw/verify-email',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -53,11 +53,11 @@ function FindPw() {
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
-        console.log(data.message)
+        console.log(data.message);
         alert('이메일 인증 코드가 전송되었습니다.');
         setSendCode(true);
-      } else if(data.status === 'failed') {
-        console.log(data.message)
+      } else if (data.status === 'failed') {
+        console.log(data.message);
         alert('가입정보가 없는 회원입니다. 회원가입 후 이용해주세요 :)');
       }
     } catch (error) {
@@ -76,28 +76,29 @@ function FindPw() {
 
     try {
       const response = await fetch(
-        `https://localhost:8443/api/find/pw/verify-email/code?code=${encodeURIComponent(
+        `http://localhost:8080/api/find/pw/verify-email/code?code=${encodeURIComponent(
           inputValues.emailCode,
-        )}`,{
-          method: 'GET', 
+        )}`,
+        {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', 
-        }
+          credentials: 'include',
+        },
       );
-      
+
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
         alert('인증이 완료되었습니다.');
         localStorage.setItem('memberId', inputValues.memberId);
-        console.log(data.message)
-        console.log(localStorage.getItem('memberId'))
+        console.log(data.message);
+        console.log(localStorage.getItem('memberId'));
         navigate('/change/pw');
       } else {
         if (data.status === 'failed') {
-          console.log(data.message)
+          console.log(data.message);
           alert('인증코드가 틀립니다.');
           setInputValues(prev => ({
             ...prev,
@@ -105,14 +106,14 @@ function FindPw() {
           }));
           document.querySelector('input[name="emailCode"]').focus();
         } else {
-          console.log(data.message)
+          console.log(data.message);
           alert('인증코드가 틀립니다.');
           setInputValues(prev => ({
             ...prev,
             emailCode: '',
           }));
           document.querySelector('input[name="emailCode"]').focus();
-        }        
+        }
       }
     } catch (error) {
       console.error('Failed to Email Verification', error);
@@ -165,18 +166,12 @@ function FindPw() {
           </button>
         )}
         {sendCode && (
-          <button
-            className="findpw-button"
-            onClick={handleEmailCode}
-          >
+          <button className="findpw-button" onClick={handleEmailCode}>
             인증번호 확인
           </button>
         )}
         <div className="login-bottom-menu">
-          <div
-            className="login-bottom-findid"
-            onClick={() => navigate('/')}
-          >
+          <div className="login-bottom-findid" onClick={() => navigate('/')}>
             로그인하기
           </div>
           <div className="login-bottom-border1">|</div>
@@ -187,15 +182,11 @@ function FindPw() {
             아이디 찾기
           </div>
           <div className="login-bottom-border2">|</div>
-          <div
-            className="login-bottom-join"
-            onClick={() => navigate('/join')}
-          >
+          <div className="login-bottom-join" onClick={() => navigate('/join')}>
             회원가입
           </div>
         </div>
       </div>
-      
     </div>
   );
 }

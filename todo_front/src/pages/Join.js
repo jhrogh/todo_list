@@ -63,25 +63,26 @@ function Join() {
 
     try {
       const response = await fetch(
-        `https://localhost:8443/api/join/memberId/unique?memberId=${encodeURIComponent(
+        `http://localhost:8080/api/join/memberId/unique?memberId=${encodeURIComponent(
           inputValues.memberId,
-        )}`,{
-          method: 'GET', 
+        )}`,
+        {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', 
-        }
+          credentials: 'include',
+        },
       );
-      
+
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.message)
+        console.log(data.message);
         alert('사용 가능한 아이디 입니다.');
         setMemberIdUnique(true);
       } else {
-        console.log(data.message)
+        console.log(data.message);
         alert('이미 사용중인 아이디 입니다.');
         setInputValues(prev => ({
           ...prev,
@@ -202,7 +203,7 @@ function Join() {
 
     try {
       const response = await fetch(
-        'https://localhost:8443/api/join/verify-email',
+        'http://localhost:8080/api/join/verify-email',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -214,7 +215,7 @@ function Join() {
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
-        console.log(data.message)
+        console.log(data.message);
         alert('이메일 인증 코드가 전송되었습니다.');
         setSendCode(true);
       } else {
@@ -233,25 +234,26 @@ function Join() {
 
     try {
       const response = await fetch(
-        `https://localhost:8443/api/join/verify-email/code?code=${encodeURIComponent(
+        `http://localhost:8080/api/join/verify-email/code?code=${encodeURIComponent(
           inputValues.emailCode,
-        )}`,{
-          method: 'GET', 
+        )}`,
+        {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', 
-        }
+          credentials: 'include',
+        },
       );
-      
+
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.message)
+        console.log(data.message);
         alert('인증이 완료되었습니다.');
         setEmailVerified(true);
       } else {
-        console.log(data.message)
+        console.log(data.message);
         alert('인증코드가 틀립니다.');
         setInputValues(prev => ({
           ...prev,
@@ -273,7 +275,7 @@ function Join() {
     const emailVerificationComplete = emailVerified;
     const memberIdUniqueComplete = memberIdUnique;
 
-    if( !memberIdUniqueComplete) {
+    if (!memberIdUniqueComplete) {
       alert('아이디 중복 확인을 해주세요.');
       return;
     }
@@ -294,7 +296,7 @@ function Join() {
     }
 
     try {
-      const response = await fetch('https://localhost:8443/api/join', {
+      const response = await fetch('http://localhost:8080/api/join', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -310,11 +312,11 @@ function Join() {
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
-        console.log(data.message)
+        console.log(data.message);
         alert('회원가입이 완료되었습니다. 로그인 후 이용해주세요 :)');
         navigate('/');
       } else {
-        console.log(data.message)
+        console.log(data.message);
         alert('이미 사용중인 아이디 입니다.');
         setInputValues(prev => ({
           ...prev,
@@ -347,15 +349,15 @@ function Join() {
           {error.memberId && <p className="error-message">{error.memberId}</p>}
         </div>
         <div className="join-email">
-            <button
-              className="join-button-email"
-              onClick={handleIdUnique}
-              disabled={memberIdUnique}
-              style={{ backgroundColor: memberIdUnique ? '#c9c9c9' : '#52b6ff' }}
-            >
-              중복 확인
-            </button>
-          </div>
+          <button
+            className="join-button-email"
+            onClick={handleIdUnique}
+            disabled={memberIdUnique}
+            style={{ backgroundColor: memberIdUnique ? '#c9c9c9' : '#52b6ff' }}
+          >
+            중복 확인
+          </button>
+        </div>
 
         <div className="join-input">
           <div className="join-input-group">
@@ -464,12 +466,9 @@ function Join() {
           가입하기
         </button>
         <div className="login-bottom-menu">
-          <div
-            className="login-bottom-findid"
-            onClick={() => navigate('/')}
-          >
+          <div className="login-bottom-findid" onClick={() => navigate('/')}>
             로그인하기
-          </div>          
+          </div>
         </div>
       </div>
     </div>

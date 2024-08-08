@@ -15,9 +15,9 @@ function FindId() {
   };
 
   const handleInput = e => {
-    const {name, value} = e.target;
-    setInputValues({...inputValues, [name]: value})
-  }
+    const { name, value } = e.target;
+    setInputValues({ ...inputValues, [name]: value });
+  };
 
   const handleFindId = async () => {
     const allFieldsFilled = Object.values(inputValues).every(
@@ -28,7 +28,7 @@ function FindId() {
       return;
     }
     try {
-      const response = await fetch('https://localhost:8443/api/find/id', {
+      const response = await fetch('http://localhost:8080/api/find/id', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -39,13 +39,16 @@ function FindId() {
       });
 
       const data = await response.json();
-      
+
       if (response.ok && data.status === 'success') {
-        console.log(data.message)
+        console.log(data.message);
         alert(`아이디는 ${data.memberId} 입니다.`);
         navigate('/');
       } else if (data.status === 'failed') {
-        console.log(data.message)
+        console.log(data.message);
+        alert('이메일이 일치하지 않습니다.');
+      } else if (data.status === 'Not Found') {
+        console.log(data.message);
         alert('가입정보가 없는 회원입니다. 회원가입 후 이용해주세요 :)');
       }
     } catch (error) {
@@ -84,10 +87,7 @@ function FindId() {
         </button>
 
         <div className="login-bottom-menu">
-          <div
-            className="login-bottom-findid"
-            onClick={() => navigate('/')}
-          >
+          <div className="login-bottom-findid" onClick={() => navigate('/')}>
             로그인하기
           </div>
           <div className="login-bottom-border1">|</div>
@@ -98,10 +98,7 @@ function FindId() {
             비밀번호 찾기
           </div>
           <div className="login-bottom-border2">|</div>
-          <div
-            className="login-bottom-join"
-            onClick={() => navigate('/join')}
-          >
+          <div className="login-bottom-join" onClick={() => navigate('/join')}>
             회원가입
           </div>
         </div>
