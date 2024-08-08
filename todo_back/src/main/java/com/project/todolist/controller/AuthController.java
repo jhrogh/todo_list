@@ -65,6 +65,11 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        return checkLogin.logoutUser(request, response);
+    }
+
     @PostMapping("/login")      // 로그인하기
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
         CheckMemberDto result = checkLogin.checkMember(loginDto);

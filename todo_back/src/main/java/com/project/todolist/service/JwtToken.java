@@ -79,6 +79,14 @@ public class JwtToken {
         response.addHeader("Set-Cookie", cookie.toString());
     }
 
+    // 쿠키에서 토큰 삭제
+    public void deleteToken(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setPath("/"); // 쿠키가 유효할 경로 설정
+        cookie.setMaxAge(0); // 쿠키를 즉시 만료시킴
+        response.addCookie(cookie);
+    }
+
     // 쿠키에서 토큰 추출
     public String findToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();

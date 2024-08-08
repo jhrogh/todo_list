@@ -7,7 +7,6 @@ import com.project.todolist.entity.EmailVerification;
 import com.project.todolist.entity.Member;
 import com.project.todolist.repository.EmailVerificationRepository;
 import com.project.todolist.repository.MemberRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -90,24 +89,23 @@ public class FindInfo {
         }
     }
 
-    public ResponseEntity<?> changePassword(HttpServletRequest request, ChangePwDto changePwDto) {
+    public ResponseEntity<?> changePassword(ChangePwDto changePwDto) {
         String memberId = changePwDto.getMemberId();
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
-            Member member = optionalMember.get();
-            String newHashPassword;
-            try {
-                newHashPassword = hashPassword.hashPassword(changePwDto.getPassword());
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e);
-            }
-            member.setPassword(newHashPassword);
-            memberRepository.save(member);
+        Member member = optionalMember.get();
+        String newHashPassword;
+        try {
+            newHashPassword = hashPassword.hashPassword(changePwDto.getPassword());
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        member.setPassword(newHashPassword);
+        memberRepository.save(member);
 
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "success");
-            responseBody.put("message", "Password successfully change");
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", "success");
+        responseBody.put("message", "Password successfully change");
 
-            return ResponseEntity.ok().body(responseBody);
-
+        return ResponseEntity.ok().body(responseBody);
     }
 }

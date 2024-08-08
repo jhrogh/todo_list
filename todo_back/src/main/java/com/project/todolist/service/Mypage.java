@@ -3,6 +3,7 @@ package com.project.todolist.service;
 import com.project.todolist.entity.Member;
 import com.project.todolist.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class Mypage {
     private final JwtToken jwtToken;
     private final MemberRepository memberRepository;
     private final HashPassword hashPassword;
+    private final CheckLogin checkLogin;
 
     public ResponseEntity<?> showMyInfo(HttpServletRequest request) {
         String token = jwtToken.findToken(request);
@@ -48,7 +50,7 @@ public class Mypage {
         return member.getName();
     }
 
-    public ResponseEntity<?> deleteAccount(HttpServletRequest request, @RequestBody Map<String, String> password) {
+    public ResponseEntity<?> deleteAccount(HttpServletRequest request, @RequestBody Map<String, String> password, HttpServletResponse response) {
         String hashpassword;
         try {
             hashpassword = hashPassword.hashPassword(password.get("password"));
@@ -61,7 +63,7 @@ public class Mypage {
         if(optionalMember.isPresent()){
             Member member = optionalMember.get();
             if (hashpassword.equals(member.getPassword())) {
-                // 로그아웃 진행
+                checkLogin.logoutUser(request, response)
                 memberRepository.delete(member);
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("status", "success");

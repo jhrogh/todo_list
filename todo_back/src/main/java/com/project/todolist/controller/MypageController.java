@@ -3,6 +3,7 @@ package com.project.todolist.controller;
 import com.project.todolist.service.JwtToken;
 import com.project.todolist.service.Mypage;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class MypageController {
     }
 
     @DeleteMapping("/delete-account")
-    public ResponseEntity<?> deleteAccount(HttpServletRequest request, @RequestBody Map<String, String> password) {
-        return mypage.deleteAccount(request, password);
+    public ResponseEntity<?> deleteAccount(HttpServletRequest request, @RequestBody Map<String, String> password, HttpServletResponse response) {
+        return mypage.deleteAccount(request, password, response);
     }
 }
