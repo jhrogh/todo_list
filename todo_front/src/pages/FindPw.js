@@ -92,10 +92,14 @@ function FindPw() {
 
       if (response.ok && data.status === 'success') {
         alert('인증이 완료되었습니다.');
-        localStorage.setItem('memberId', inputValues.memberId);
-        console.log(data.message);
-        console.log(localStorage.getItem('memberId'));
-        navigate('/change/pw');
+        const memberId = inputValues.memberId;
+        const queryParams = new URLSearchParams({ from: 'findpw', memberId}).toString();
+        const url = `/change/pw?${queryParams}`;
+        navigate(url);
+        // localStorage.setItem('memberId', inputValues.memberId);
+        // console.log(data.message);
+        // console.log(localStorage.getItem('memberId'));
+        // navigate('/change/pw?from=findpw');
       } else {
         if (data.status === 'failed') {
           console.log(data.message);

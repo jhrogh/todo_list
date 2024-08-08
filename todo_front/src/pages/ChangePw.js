@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import '../assets/styles/ChangePwStyle.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function ChangePw() {
   const navigate = useNavigate();
+
+  const location = useLocation();
+
   const [inputValues, setInputValues] = useState({
     password: '',
     confirmPw: '',
@@ -21,6 +24,10 @@ function ChangePw() {
     setInputValues({ ...inputValues, [name]: value });
   };
 
+  const queryParams = new URLSearchParams(location.search);
+  const from = queryParams.get('from');
+  const memberId = queryParams.get('memberId');
+
   const handleChangePw = async () => {
     if (inputValues.password !== inputValues.confirmPw) {
       alert('비밀번호가 일치하지 않습니다.');
@@ -34,7 +41,7 @@ function ChangePw() {
       return;
     }
     try {
-      const memberId = localStorage.getItem('memberId');
+      // const memberId = localStorage.getItem('memberId');
       const response = await fetch('http://localhost:8080/api/find/changepw', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -48,11 +55,17 @@ function ChangePw() {
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
-        alert('비밀번호가 변경되었습니다.');
-        localStorage.removeItem('memberId');
-        console.log(localStorage.getItem('memberId'));
-        console.log(data.message);
-        navigate('/');
+        if (from === 'findpw') {
+          alert('비밀번호가 변경되었습니다.');
+          localStorage.removeItem('memberId');
+          console.log(localStorage.getItem('memberId'));
+          console.log(data.message);
+          navigate('/');
+        } else if (from === 'mypage') {
+          console.log(data.message);
+          console.log('mypage 이동');
+          navigate('/mypage');
+        }
       } else {
         alert('이미 사용중인 아이디 입니다.');
         setInputValues(prev => ({

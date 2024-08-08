@@ -17,6 +17,7 @@ function Mypage() {
   };
   const closeModal = () => {
     setModalIsOpen(false);
+    setPassword('');
   };
 
   const [isPageVisible, setIsPageVisible] = useState(false);
@@ -87,9 +88,23 @@ function Mypage() {
   };
 
   const handleChangePw = () => {
-    localStorage.setItem('memberId', inputValues.memberId);
-    navigate('/change/pw');
+    const memberId = inputValues.memberId;
+    const queryParams = new URLSearchParams({ from: 'mypage', memberId}).toString();
+    const url = `/change/pw?${queryParams}`;
+    navigate(url);
+    // localStorage.setItem('memberId', inputValues.memberId);
+    // navigate('/change/pw?from=mypage');
   };
+
+  useEffect(() => {
+    const modal = document.getElementById('deleteAccountModal');
+    const handleHide = () => setPassword(''); // Clear password when modal is hidden
+
+    modal?.addEventListener('hidden.bs.modal', handleHide);
+    return () => {
+      modal?.removeEventListener('hidden.bs.modal', handleHide);
+    };
+  }, []);
 
   return (
     <>
@@ -199,22 +214,6 @@ function Mypage() {
           </div>
         </div>
       </div>
-
-      {/* <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        contentLabel="Delete Account Modal"
-      >
-        <h2>비밀번호를 입력해주세요.</h2>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="비밀번호"
-        />
-        <button onClick={handleDeleteAccount}>회원 탈퇴</button>
-        <button onClick={() => setModalIsOpen(false)}>취소</button>
-      </Modal> */}
     </>
   );
 }

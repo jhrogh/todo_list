@@ -5,6 +5,7 @@ import com.project.todolist.dto.FindIdDto;
 import com.project.todolist.dto.FindPwDto;
 import com.project.todolist.service.FindInfo;
 import com.project.todolist.service.VerifyEmail;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class FindInfoController {
     }
 
     @PostMapping("/changepw")
-    public ResponseEntity<?> changePw(@RequestBody ChangePwDto changePwDto) {
-        return findInfo.changePassword(changePwDto);
+    public ResponseEntity<?> changePw(HttpServletRequest request, @RequestBody ChangePwDto changePwDto) {
+        return findInfo.changePassword(request, changePwDto);
     }
 }
