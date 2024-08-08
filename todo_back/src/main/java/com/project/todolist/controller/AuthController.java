@@ -53,28 +53,17 @@ public class AuthController {
                 responseBody.put("status", "failed");
                 responseBody.put("message", "Token is not Validate");
 
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
+                return ResponseEntity.ok().body(responseBody);
             }
         }
         else {
             Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
+            responseBody.put("status", "server error");
             responseBody.put("message", "Authentication required");
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
         }
     }
-
-//    @GetMapping("/check-name")      // 로그인 사용자 이름
-//    public ResponseEntity<?> checkName(HttpServletRequest request) {
-//        String name = mypage.findUserName(request);
-//
-//        Map<String, Object> responseBody = new HashMap<>();
-//        responseBody.put("status", "success");
-//        responseBody.put("name", name);
-//
-//        return ResponseEntity.ok().body(responseBody);
-//    }
 
     @PostMapping("/login")      // 로그인하기
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
@@ -91,7 +80,7 @@ public class AuthController {
             return ResponseEntity.ok().body(responseBody);
         } else{
             Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
+            responseBody.put("status", "failed");
             responseBody.put("message", result.getMessage());
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
@@ -118,5 +107,10 @@ public class AuthController {
     @PostMapping("/join")       // 회원가입 - 가입하기
     public ResponseEntity<?> join(@RequestBody JoinDto joinDto) {
         return joinMember.saveMember(joinDto);
+    }
+
+    @GetMapping("/join/memberId/unique")
+    public ResponseEntity<?> uniqueMemberId(@RequestParam("memberId") String memberId) {
+        return joinMember.checkMemberId(memberId);
     }
 }

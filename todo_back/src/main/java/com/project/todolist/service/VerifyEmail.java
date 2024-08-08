@@ -58,14 +58,14 @@ public class VerifyEmail {
             }
             else {  // 토큰 만료
                 Map<String, Object> responseBody = new HashMap<>();
-                responseBody.put("status", "error");
+                responseBody.put("status", "failed");
                 responseBody.put("message", "Verification token has expired");
                 return ResponseEntity.badRequest().body(responseBody);
             }
         }
         else {  // 토큰 존재하지 않음
             Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
+            responseBody.put("status", "server error");
             responseBody.put("message", "Invalid verification token");
             return ResponseEntity.badRequest().body(responseBody);
         }

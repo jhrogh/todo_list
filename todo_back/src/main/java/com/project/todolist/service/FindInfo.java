@@ -40,7 +40,7 @@ public class FindInfo {
         }
         else {
             Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
+            responseBody.put("status", "failed");
             responseBody.put("message", "No matching");
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
@@ -72,7 +72,7 @@ public class FindInfo {
         }
         else {
             Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
+            responseBody.put("status", "failed");
             responseBody.put("message", "No matching");
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);

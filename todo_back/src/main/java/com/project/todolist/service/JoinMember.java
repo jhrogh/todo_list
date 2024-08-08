@@ -24,9 +24,7 @@ public class JoinMember {
     public ResponseEntity<?> saveMember(JoinDto joinDto) {
         String verificationCode = joinDto.getCode();
         Optional<EmailVerification> emailVerificationOpt = emailVerificationRepository.findByVerificationCode(verificationCode);
-        Boolean isNewId = memberRepository.findByMemberId(joinDto.getMemberId()).isEmpty();     // T: 신규 / F: 기존
 
-        if(isNewId) {  // 신규 가입
             String memberId = joinDto.getMemberId();
             String name = joinDto.getName();
             String password;
@@ -58,9 +56,19 @@ public class JoinMember {
 
             return ResponseEntity.ok().body(responseBody);
         }
-        else {  // 400 error (아이디 중복)
+
+    public ResponseEntity<?> checkMemberId(String memberId) {
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+
+        if(!optionalMember.isPresent()) {
             Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("status", "error");
+            responseBody.put("status", "success");
+            responseBody.put("message", "MemberId is unique");
+
+            return ResponseEntity.ok().body(responseBody);
+        } else {
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("status", "failed");
             responseBody.put("message", "MemberId already taken or email not verified");
 
             return ResponseEntity.badRequest().body(responseBody);
