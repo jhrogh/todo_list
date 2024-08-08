@@ -53,6 +53,47 @@ function Join() {
     setInputValues({ ...inputValues, [name]: processedValue });
   };
 
+  // 아이디 중복 검사
+  const [memberIdUnique, setMemberIdUnique] = useState(false);
+  const handleIdUnique = async () => {
+    if (inputValues.memberId === '') {
+      alert('아이디를 입력해주세요.');
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://localhost:8443/api/join/memberId/unique?memberId=${encodeURIComponent(
+          inputValues.memberId,
+        )}`,{
+          method: 'GET', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', 
+        }
+      );
+      
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(data.message)
+        alert('사용 가능한 아이디 입니다.');
+        setMemberIdUnique(true);
+      } else {
+        console.log(data.message)
+        alert('이미 사용중인 아이디 입니다.');
+        setInputValues(prev => ({
+          ...prev,
+          memberId: '',
+        }));
+        document.querySelector('input[name="memberId"]').focus();
+      }
+    } catch (error) {
+      console.error('Failed to email code', error);
+    }
+  };
+
   // 이름 유효성 검사
   const handleInputName = e => {
     const { name, value } = e.target;
@@ -173,6 +214,7 @@ function Join() {
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
+        console.log(data.message)
         alert('이메일 인증 코드가 전송되었습니다.');
         setSendCode(true);
       } else {
@@ -201,11 +243,15 @@ function Join() {
           credentials: 'include', 
         }
       );
+      
+      const data = await response.json();
 
       if (response.ok) {
+        console.log(data.message)
         alert('인증이 완료되었습니다.');
         setEmailVerified(true);
       } else {
+        console.log(data.message)
         alert('인증코드가 틀립니다.');
         setInputValues(prev => ({
           ...prev,
@@ -225,6 +271,17 @@ function Join() {
     );
     const noErrors = Object.values(error).every(errorMsg => errorMsg === '');
     const emailVerificationComplete = emailVerified;
+    const memberIdUniqueComplete = memberIdUnique;
+
+    if( !memberIdUniqueComplete) {
+      alert('아이디 중복 확인을 해주세요.');
+      return;
+    }
+
+    if (!emailVerificationComplete) {
+      alert('이메일 인증을 진행해주세요.');
+      return;
+    }
 
     if (!allFieldsFilled) {
       alert('모든 값을 입력해주세요.');
@@ -233,11 +290,6 @@ function Join() {
 
     if (!noErrors) {
       alert('입력한 내용을 다시 확인해주세요.');
-      return;
-    }
-
-    if (!emailVerificationComplete) {
-      alert('이메일 인증을 진행해주세요.');
       return;
     }
 
@@ -258,9 +310,11 @@ function Join() {
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
+        console.log(data.message)
         alert('회원가입이 완료되었습니다. 로그인 후 이용해주세요 :)');
         navigate('/');
       } else {
+        console.log(data.message)
         alert('이미 사용중인 아이디 입니다.');
         setInputValues(prev => ({
           ...prev,
@@ -284,14 +338,24 @@ function Join() {
               className="join-input-id"
               type="text"
               name="memberId"
-              placeholder="아이디를 입력해주세요."
               value={inputValues.memberId}
               onKeyDown={handleKeyDown}
               onInput={handleInputId}
+              readOnly={memberIdUnique}
             />
           </div>
           {error.memberId && <p className="error-message">{error.memberId}</p>}
         </div>
+        <div className="join-email">
+            <button
+              className="join-button-email"
+              onClick={handleIdUnique}
+              disabled={memberIdUnique}
+              style={{ backgroundColor: memberIdUnique ? '#c9c9c9' : '#52b6ff' }}
+            >
+              중복 확인
+            </button>
+          </div>
 
         <div className="join-input">
           <div className="join-input-group">
@@ -314,7 +378,6 @@ function Join() {
               className="join-input-pw"
               type="password"
               name="password"
-              placeholder="비밀번호를 입력해주세요."
               value={inputValues.password}
               onKeyDown={handleKeyDown}
               onInput={handleInputPw}
@@ -329,7 +392,6 @@ function Join() {
               className="join-input-pwcheck"
               type="password"
               name="confirmPassword"
-              placeholder="비밀번호를 다시 입력해주세요."
               value={inputValues.confirmPassword}
               onKeyDown={handleKeyDown}
               onInput={handleConfirmPw}

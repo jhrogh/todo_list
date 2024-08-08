@@ -53,9 +53,11 @@ function FindPw() {
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
+        console.log(data.message)
         alert('이메일 인증 코드가 전송되었습니다.');
         setSendCode(true);
-      } else {
+      } else if(data.status === 'failed') {
+        console.log(data.message)
         alert('가입정보가 없는 회원입니다. 회원가입 후 이용해주세요 :)');
       }
     } catch (error) {
@@ -84,18 +86,33 @@ function FindPw() {
           credentials: 'include', 
         }
       );
+      
+      const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok && data.status === 'success') {
         alert('인증이 완료되었습니다.');
         localStorage.setItem('memberId', inputValues.memberId);
+        console.log(data.message)
+        console.log(localStorage.getItem('memberId'))
         navigate('/change/pw');
       } else {
-        alert('인증코드가 틀립니다.');
-        setInputValues(prev => ({
-          ...prev,
-          emailCode: '',
-        }));
-        document.querySelector('input[name="emailCode"]').focus();
+        if (data.status === 'failed') {
+          console.log(data.message)
+          alert('인증코드가 틀립니다.');
+          setInputValues(prev => ({
+            ...prev,
+            emailCode: '',
+          }));
+          document.querySelector('input[name="emailCode"]').focus();
+        } else {
+          console.log(data.message)
+          alert('인증코드가 틀립니다.');
+          setInputValues(prev => ({
+            ...prev,
+            emailCode: '',
+          }));
+          document.querySelector('input[name="emailCode"]').focus();
+        }        
       }
     } catch (error) {
       console.error('Failed to Email Verification', error);

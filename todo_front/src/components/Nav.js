@@ -1,4 +1,4 @@
-import Reac, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../assets/styles/NavStyle.css';
 
@@ -17,17 +17,20 @@ function Nav({ setIsPageVisible, setUserName }) {
           credentials: 'include',
         });
 
+        const data = await response.json();
+
         if (response.ok) {
-          const data = await response.json();
           if (data.status === 'success') {
-            console.log('토큰 확인');
+            console.log(data.name);
             setIsPageVisible(true);
             setUserName(data.name);
             setUserNameState(data.name);
-          } else {
+          } else if (data.status === 'failed') {
+            console.log(data.message);
             handleTokenError();
           }
         } else {
+          console.log(data.message);
           handleTokenError();
         }
       } catch (error) {

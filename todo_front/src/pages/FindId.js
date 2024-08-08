@@ -39,10 +39,13 @@ function FindId() {
       });
 
       const data = await response.json();
+      
       if (response.ok && data.status === 'success') {
+        console.log(data.message)
         alert(`아이디는 ${data.memberId} 입니다.`);
         navigate('/');
-      } else {
+      } else if (data.status === 'failed') {
+        console.log(data.message)
         alert('가입정보가 없는 회원입니다. 회원가입 후 이용해주세요 :)');
       }
     } catch (error) {

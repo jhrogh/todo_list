@@ -51,6 +51,7 @@ function ChangePw() {
         alert('비밀번호가 변경되었습니다.');
         localStorage.removeItem('memberId');
         console.log(localStorage.getItem('memberId'));
+        console.log(data.message)
         navigate('/');
       } else {
         alert('이미 사용중인 아이디 입니다.');

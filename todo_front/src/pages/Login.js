@@ -90,12 +90,23 @@ function Login() {
       const data = await response.json();
 
       if (response.ok && data.status === 'success') {
+        console.log(data.message);
         navigate('/home');
         // navigate('/mypage');
       } else {
-        if (data.status === 'error' && data.message === 'Failed Password') {
+        if (data.status === 'failed' && data.message === 'Failed Password') {
+          console.log(data.message);
           alert('비밀번호가 일치하지 않습니다.');
-        } else if (data.status === 'error' && data.message === 'Not Found Id') {
+          setInputValues(prev => ({
+            ...prev,
+            password: '',
+          }));
+          document.querySelector('input[name="password"]').focus();
+        } else if (
+          data.status === 'failed' &&
+          data.message === 'Not Found Id'
+        ) {
+          console.log(data.message);
           alert('가입된 아이디가 아닙니다. 회원가입 후 이용해주세요 :)');
         }
       }

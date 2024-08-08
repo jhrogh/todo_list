@@ -2,9 +2,22 @@ import React, { useState, useEffect } from 'react';
 import Nav from '../components/Nav';
 import '../assets/styles/MypageStyle.css';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
+// Modal.setAppElement('#root');
 
 function Mypage() {
   const navigate = useNavigate();
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [password, setPassword] = useState('');
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   const [isPageVisible, setIsPageVisible] = useState(false);
   const [userName, setUserName] = useState('');
@@ -39,6 +52,44 @@ function Mypage() {
     };
     showData();
   }, []);
+
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await fetch(
+        'https://localhost:8443/api/mypage/delete-account',
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ password }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.status === 'success') {
+        console.log(data.message);
+        alert('이용해주셔서 감사합니다');
+        navigate('/');
+      } else {
+        if (data.status === 'failed') {
+          console.log(data.message);
+          alert('비밀번호를 다시 확인해주세요.');
+        } else {
+          console.log(data.message);
+        }
+      }
+    } catch (error) {
+      console.log('Failed to delete account', error);
+    }
+  };
+
+  const handleChangePw = () => {
+    localStorage.setItem('memberId', inputValues.memberId);
+    navigate('/change/pw');
+  };
 
   return (
     <>
@@ -78,10 +129,16 @@ function Mypage() {
           <button className="mypage-button-email">이메일 수정</button>
         </div> */}
             <div className="mypage-button">
-              <button className="mypage-button-remove">회원 탈퇴</button>
+              <button
+                className="mypage-button-remove"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteAccountModal"
+              >
+                회원 탈퇴
+              </button>
               <button
                 className="mypage-button-chagepw"
-                onClick={() => navigate('/change/pw')}
+                onClick={handleChangePw}
               >
                 비밀번호 변경
               </button>
@@ -89,6 +146,75 @@ function Mypage() {
           </div>
         </div>
       )}
+      {/* Modal */}
+      <div
+        className="modal fade"
+        id="deleteAccountModal"
+        tabIndex="-1"
+        aria-labelledby="deleteAccountModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="deleteAccountModalLabel">
+                회원 탈퇴
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              회원 탈퇴를 위해서 비밀번호 입력이 필요합니다.
+              <input
+                type="password"
+                className="form-control mt-3"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="비밀번호"
+              />
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                취소
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  handleDeleteAccount();
+                  document.querySelector('[data-bs-dismiss="modal"]').click(); // 모달 닫기
+                }}
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Delete Account Modal"
+      >
+        <h2>비밀번호를 입력해주세요.</h2>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="비밀번호"
+        />
+        <button onClick={handleDeleteAccount}>회원 탈퇴</button>
+        <button onClick={() => setModalIsOpen(false)}>취소</button>
+      </Modal> */}
     </>
   );
 }
