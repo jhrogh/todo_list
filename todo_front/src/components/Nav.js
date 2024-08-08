@@ -48,7 +48,32 @@ function Nav({ setIsPageVisible, setUserName }) {
     checkToken();
   }, [navigate, setIsPageVisible, setUserName]);
 
-  return <div className="nav-container">{userName}</div>;
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/logout', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const data = response.json();
+      if (response.ok) {
+        alert('로그아웃 되었습니다.');
+        navigate('/');
+      } else {
+        alert('로그아웃 실패');
+      }
+    } catch (error) {
+      console.log('Failed to delete account', error);
+    }
+  };
+
+  return (
+    <div className="nav-container">
+      <div className="nav-logout" onClick={handleLogout}>
+        logout
+      </div>
+      <div className="nav-useName">{userName} 님</div>
+    </div>
+  );
 }
 
 export default Nav;

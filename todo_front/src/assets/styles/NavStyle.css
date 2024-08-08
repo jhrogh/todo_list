@@ -1,6 +1,11 @@
 .nav-container {
-  width: calc(100% - 35px);
-  margin-top: 20px;
-  margin-bottom: 25px;
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 40px 25px 40px;
+  font-weight: bold;
+}
+
+.nav-logout {
+  cursor: pointer;
 }
