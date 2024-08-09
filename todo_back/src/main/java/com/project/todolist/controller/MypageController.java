@@ -1,6 +1,5 @@
 package com.project.todolist.controller;
 
-import com.project.todolist.service.JwtToken;
 import com.project.todolist.service.Mypage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/mypage")
 public class MypageController {
     private final Mypage mypage;
-    private final JwtToken jwtToken;
 
     @GetMapping("/show")
     public ResponseEntity<?> show(HttpServletRequest request) {

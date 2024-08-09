@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,7 +64,7 @@ public class Mypage {
         if(optionalMember.isPresent()){
             Member member = optionalMember.get();
             if (hashpassword.equals(member.getPassword())) {
-                checkLogin.logoutUser(request, response)
+                checkLogin.logoutUser(request, response);
                 memberRepository.delete(member);
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("status", "success");
@@ -82,7 +83,7 @@ public class Mypage {
             responseBody.put("status", "error");
             responseBody.put("message", "Invalid password");
 
-            return ResponseEntity.badRequest().body(responseBody);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
         }
     }
 }

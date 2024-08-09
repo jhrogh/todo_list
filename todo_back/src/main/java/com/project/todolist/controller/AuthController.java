@@ -93,6 +93,11 @@ public class AuthController {
 
     }
 
+    @GetMapping("/join/memberId/unique")
+    public ResponseEntity<?> uniqueMemberId(@RequestParam("memberId") String memberId) {
+        return joinMember.checkMemberId(memberId);
+    }
+
     @PostMapping("/join/verify-email")      // 회원가입 - 이메일 인증
     public ResponseEntity<?> verifyEmail(@RequestBody VerifyEmailDto verifyEmailDto) {
         verifyEmail.sendEmailCode(verifyEmailDto);
@@ -112,10 +117,5 @@ public class AuthController {
     @PostMapping("/join")       // 회원가입 - 가입하기
     public ResponseEntity<?> join(@RequestBody JoinDto joinDto) {
         return joinMember.saveMember(joinDto);
-    }
-
-    @GetMapping("/join/memberId/unique")
-    public ResponseEntity<?> uniqueMemberId(@RequestParam("memberId") String memberId) {
-        return joinMember.checkMemberId(memberId);
     }
 }

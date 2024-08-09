@@ -68,7 +68,7 @@ public class CheckLogin {
             responseBody.put("status", "failed");
             responseBody.put("message", "Logout failed");
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
         }
     }
 }

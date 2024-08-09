@@ -24,7 +24,6 @@ public class FindInfo {
     private final CreateEmailCode createEmailCode;
     private final EmailVerificationRepository emailVerificationRepository;
     private final HashPassword hashPassword;
-    private final JwtToken jwtToken;
 
     public ResponseEntity<?> searchId(FindIdDto findIdDto) {
         String name = findIdDto.getName();
@@ -45,7 +44,7 @@ public class FindInfo {
                 responseBody.put("status", "failed");
                 responseBody.put("message", "No matching Email");
 
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+                return ResponseEntity.badRequest().body(responseBody);
             }
         }
         else {
@@ -66,7 +65,7 @@ public class FindInfo {
             String verificationCode = createEmailCode.emailCode(findPwDto.getEmail());
 
             LocalDateTime createAt = LocalDateTime.now();
-            LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(10); // 인증 코드는 10분 동안 유효
+            LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(3); // 인증 코드는 3분 동안 유효
 
             EmailVerification emailVerification = optionalMember.get().getEmailVerification();
             emailVerification.setVerificationCode(verificationCode);
@@ -85,7 +84,7 @@ public class FindInfo {
             responseBody.put("status", "failed");
             responseBody.put("message", "No matching");
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+            return ResponseEntity.badRequest().body(responseBody);
         }
     }
 

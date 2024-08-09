@@ -3,22 +3,19 @@ package com.project.todolist.service;
 import com.project.todolist.dto.VerifyEmailDto;
 import com.project.todolist.entity.EmailVerification;
 import com.project.todolist.repository.EmailVerificationRepository;
-import com.project.todolist.repository.MemberRepository;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class VerifyEmail {
-    private final MemberRepository memberRepository;
     private final EmailVerificationRepository emailVerificationRepository;
-    private final JavaMailSender mailSender;
     private final CreateEmailCode createEmailCode;
 
     public void sendEmailCode(VerifyEmailDto verifyEmailDto) {
@@ -45,10 +42,10 @@ public class VerifyEmail {
     public ResponseEntity<?> checkEmailToken(String code) {
         Optional<EmailVerification> optionalEmailVerification = emailVerificationRepository.findByVerificationCode(code);
 
-        if(optionalEmailVerification.isPresent()) { // 토큰 존재
+        if(optionalEmailVerification.isPresent()) {
             EmailVerification emailVerification = optionalEmailVerification.get();
 
-            // 유효한 토큰
+            // 인증코드 존재
             if(!emailVerification.getExpiresAt().isBefore(LocalDateTime.now())){
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("status", "success");
@@ -56,18 +53,18 @@ public class VerifyEmail {
 
                 return ResponseEntity.ok().body(responseBody);
             }
-            else {  // 토큰 만료
+            else {  // 인증코드 만료
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("status", "failed");
                 responseBody.put("message", "Verification token has expired");
                 return ResponseEntity.badRequest().body(responseBody);
             }
         }
-        else {  // 토큰 존재하지 않음
+        else {  // 인증코드 존재하지 않음
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("status", "server error");
-            responseBody.put("message", "Invalid verification token");
-            return ResponseEntity.badRequest().body(responseBody);
+            responseBody.put("message", "Token Not Found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
         }
     }
 }

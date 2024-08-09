@@ -60,16 +60,15 @@ public class JoinMember {
     public ResponseEntity<?> checkMemberId(String memberId) {
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
 
-        if(!optionalMember.isPresent()) {
-            Map<String, Object> responseBody = new HashMap<>();
+        Map<String, Object> responseBody = new HashMap<>();
+        if (optionalMember.isEmpty()) {
             responseBody.put("status", "success");
             responseBody.put("message", "MemberId is unique");
 
             return ResponseEntity.ok().body(responseBody);
         } else {
-            Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("status", "failed");
-            responseBody.put("message", "MemberId already taken or email not verified");
+            responseBody.put("message", "MemberId already taken");
 
             return ResponseEntity.badRequest().body(responseBody);
         }
