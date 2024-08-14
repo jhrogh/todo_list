@@ -8,6 +8,8 @@ function Home() {
 
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
+  const [editIndex, setEditIndex] = useState(null); 
+  const [editText, setEditText] = useState(''); 
 
   const handleKeyDown = e => {
     if (e.key === 'Enter') {
@@ -26,7 +28,6 @@ function Home() {
         if (response.ok) {
           const data = await response.json();
           if (data.lists) {
-            console.log(data.lists);
             const fetchedTodos = data.lists.map(item => ({
               id: item.id,
               text: item.content,
@@ -55,13 +56,13 @@ function Home() {
           },
           credentials: 'include',
           body: newTodo.trim(),
-          // body: JSON.stringify({ content: newTodo }),
         });
 
         if (response.ok) {
           const data = await response.json();
           if (data.status === 'success') {
             const newTodoItem = {
+              id: data.newTodoId,
               text: newTodo,
               isChecked: false,
             };
@@ -81,20 +82,16 @@ function Home() {
 
   const handleCheckboxChange = async index => {
     const updatedCheckedState = !todos[index].isChecked;
-    console.log('1번 updatedCheckedState: ' + updatedCheckedState);
 
     const updatedTodos = todos.map((todo, i) =>
       i === index ? { ...todo, isChecked: updatedCheckedState } : todo,
     );
     setTodos(updatedTodos);
-    console.log('2번 updatedTodos:', updatedTodos);
 
     const requestBody = JSON.stringify({
       id: todos[index].id,
       isChecked: updatedCheckedState,
     });
-
-    console.log('3번 requestBody:', requestBody);
 
     try {
       const response = await fetch('http://localhost:8080/api/home/checkbox', {
@@ -105,12 +102,9 @@ function Home() {
         credentials: 'include',
         body: requestBody,
       });
-      console.log('4번 fetch 요청 결과:', response);
 
       if (response.ok) {
-        console.log(
-          '응답 200 - 체크박스 상태가 성공적으로 업데이트 되었습니다.',
-        );
+        console.log('Check 상태 업데이트 성공');
       } else {
         console.error('Failed to update todo');
       }
@@ -119,7 +113,66 @@ function Home() {
     }
   };
 
-  
+  const handleUpdate = async index => {
+    if (todos[index].isChecked) return; 
+
+    const updatedTodo = { ...todos[index], text: editText };
+    const updatedTodos = todos.map((todo, i) =>
+      i === index ? updatedTodo : todo,
+    );
+    setTodos(updatedTodos);
+
+    const requestBody = JSON.stringify({
+      id: todos[index].id,
+      content: editText,
+    });
+
+    try {
+      const response = await fetch('http://localhost:8080/api/home/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: requestBody,
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log(data.message);
+      } else {
+        console.error('Failed to update todo');
+      }
+    } catch (error) {
+      console.error('Error updating todo:', error);
+    }
+
+    setEditIndex(null);
+    setEditText('');
+  };
+
+  const handleDelete = async index => {
+    if (todos[index].isChecked) return; 
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/home/delete-list?id=${todos[index].id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        const updatedTodos = todos.filter((_, i) => i !== index);
+        setTodos(updatedTodos);
+        console.log('Todo 삭제 성공');
+      } else {
+        console.error('Failed to delete todo');
+      }
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
+  };
 
   return (
     <>
@@ -134,7 +187,7 @@ function Home() {
               onKeyDown={handleKeyDown}
               placeholder="할 일을 입력하세요"
             />
-            <button onClick={handleAddTodo}>+</button>{' '}
+            <button onClick={handleAddTodo}>+</button>
           </div>
           <div className="home-button-container">
             <button className="home-button-save">저장하기</button>
@@ -148,22 +201,56 @@ function Home() {
                   checked={todo.isChecked}
                   onChange={() => handleCheckboxChange(index)}
                 />
-                <span className={todo.isChecked ? 'strikethrough' : ''}>
-                  {' '}
-                  {todo.text}
-                </span>
+                {editIndex === index ? (
+                  <div className="todo-edit-container">
+                    <input
+                      type="text"
+                      value={editText}
+                      onChange={e => setEditText(e.target.value)}
+                      onBlur={() => handleUpdate(index)}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          handleUpdate(index);
+                        }
+                      }}
+                      className="todo-edit-input"
+                    />
+                  </div>
+                ) : (
+                  <span className={todo.isChecked ? 'strikethrough' : ''}>
+                    {todo.text}
+                  </span>
+                )}
                 <div className="icon-group">
-                  <img
-                    src="/images/edit.png"
-                    alt="수정"
-                    className="edit-icon"
-                    onChange={() => handleUpdate(index)}
-                  />
+                  {editIndex === index ? (
+                    <img
+                      src="/images/ok.png"
+                      alt="완료"
+                      className="edit-icon"
+                      onClick={() => handleUpdate(index)}
+                    />
+                  ) : (
+                    <img
+                      src="/images/edit.png"
+                      alt="수정"
+                      className="edit-icon"
+                      onClick={() => {
+                        if (!todo.isChecked) {
+                          setEditIndex(index);
+                          setEditText(todo.text);
+                        }
+                      }}
+                    />
+                  )}
                   <img
                     src="/images/delete.png"
                     alt="삭제"
                     className="delete-icon"
-                    onChange={() => handleDelete(index)}
+                    onClick={() => {
+                      if (!todo.isChecked) {
+                        handleDelete(index);
+                      }
+                    }}
                   />
                 </div>
               </li>

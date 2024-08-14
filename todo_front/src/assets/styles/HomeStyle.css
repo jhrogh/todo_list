@@ -51,6 +51,7 @@
   border-width: 1px;
   border-radius: 20px;
   padding: 3px 10px;
+  cursor: pointer;
 }
 
 .todo-list {
@@ -65,7 +66,6 @@
   align-items: center;
   margin-bottom: 5px;
   padding: 5px 0;
-  /* border-bottom: 1px solid #ddd; */
 }
 
 .todo-item input[type='checkbox'] {
@@ -73,10 +73,17 @@
   margin-left: 7px;
 }
 
-.todo-item .edit-input {
+.todo-edit-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.todo-edit-input {
   flex: 1;
   padding: 5px;
   font-size: 16px;
+  margin-right: 10px;
 }
 
 .strikethrough {
