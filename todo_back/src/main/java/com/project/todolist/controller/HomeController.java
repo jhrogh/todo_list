@@ -1,6 +1,7 @@
 package com.project.todolist.controller;
 
 import com.project.todolist.dto.IsCheckedHomeDto;
+import com.project.todolist.dto.UpdateCheckListDto;
 import com.project.todolist.service.HomeList;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -10,9 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,22 +37,14 @@ public class HomeController {
         return homeList.updateCheckbox(request, isCheckedHomeDto);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> update(HttpServletRequest request, @RequestBody IsCheckedHomeDto isCheckedHomeDto) {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", "success");
-        responseBody.put("message", "List updated successfully");
-
-        return ResponseEntity.ok().body(responseBody);
+    @PostMapping("/update")
+    public ResponseEntity<?> update(HttpServletRequest request, @RequestBody UpdateCheckListDto updateCheckListDto) {
+        return homeList.updateList(request, updateCheckListDto);
     }
 
     @DeleteMapping("/delete-list")
-    public ResponseEntity<?> deleteList() {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", "success");
-        responseBody.put("message", "List deleted successfully");
-
-        return ResponseEntity.ok().body(responseBody);
+    public ResponseEntity<?> deleteList(HttpServletRequest request, @RequestParam("id") Long id) {
+        return homeList.deleteList(request, id);
     }
 
     @PostMapping("/save")

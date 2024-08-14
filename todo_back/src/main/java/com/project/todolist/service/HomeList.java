@@ -1,12 +1,14 @@
 package com.project.todolist.service;
 
 import com.project.todolist.dto.IsCheckedHomeDto;
+import com.project.todolist.dto.UpdateCheckListDto;
 import com.project.todolist.entity.CheckList;
 import com.project.todolist.entity.Member;
 import com.project.todolist.repository.CheckListRepository;
 import com.project.todolist.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,8 +56,8 @@ public class HomeList {
         checkList.setContent(content);
         checkList.setChecked(false);
         checkList.setSaved(false);
-        checkList.setUpdateAt(LocalDateTime.now());
-        checkList.setCreateAt(LocalDateTime.now());
+        checkList.setUpdateAt(Timestamp.from(Instant.now()));
+        checkList.setCreateAt(Timestamp.from(Instant.now()));
         checkList.setMember(member);
         checkList.setSaveList(null);
 
@@ -71,8 +73,6 @@ public class HomeList {
 
     public ResponseEntity<?> updateCheckbox(HttpServletRequest request, @RequestBody IsCheckedHomeDto isCheckedHomeDto) {
         Long id = isCheckedHomeDto.getId();
-//        boolean isChecked = isCheckedHomeDto.isChecked();
-//        System.out.println("전달받은: " + isChecked);
 
         String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
@@ -84,10 +84,10 @@ public class HomeList {
         if(checkList.getMember().equals(member) && member.getId().equals(checkList.getMember().getId())) {
             boolean isChecked = checkList.isChecked();
             checkList.setChecked(!isChecked);
-            checkList.setUpdateAt(LocalDateTime.now());
-            System.out.println("Before save: " + isChecked);
+            checkList.setUpdateAt(Timestamp.from(Instant.now()));
+
             checkListRepository.save(checkList);
-            System.out.println("After save: " + !isChecked);
+
 
 
             Map<String, Object> responseBody = new HashMap<>();
@@ -105,12 +105,63 @@ public class HomeList {
         }
     }
 
-    public void updateList() {
+    public ResponseEntity<?> updateList(HttpServletRequest request, @RequestBody UpdateCheckListDto updateCheckListDto) {
+        Long id = updateCheckListDto.getId();
 
+        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+        Member member = optionalMember.get();
+
+        Optional<CheckList> optionalCheckList = checkListRepository.findById(id);
+        CheckList checkList = optionalCheckList.get();
+
+        if(checkList.getMember().equals(member) && member.getId().equals(checkList.getMember().getId())) {
+            String content = updateCheckListDto.getContent();
+            checkList.setContent(content);
+            checkList.setUpdateAt(Timestamp.from(Instant.now()));
+
+            checkListRepository.save(checkList);
+
+
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("status", "success");
+            responseBody.put("message", "Content updated successfully");
+
+            return ResponseEntity.ok().body(responseBody);
+        }
+        else {
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("status", "failed");
+            responseBody.put("message", "Failed Content updated");
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+        }
     }
 
-    public void deleteList() {
+    public ResponseEntity<?> deleteList(HttpServletRequest request, Long id) {
+        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
+        Member member = optionalMember.get();
 
+        Optional<CheckList> optionalCheckList = checkListRepository.findById(id);
+        CheckList checkList = optionalCheckList.get();
+
+        if(checkList.getMember().equals(member) && member.getId().equals(checkList.getMember().getId())) {
+            checkListRepository.delete(checkList);
+
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("status", "success");
+            responseBody.put("message", "Delete list successfully");
+
+            return ResponseEntity.ok().body(responseBody);
+        }
+        else {
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("status", "failed");
+            responseBody.put("message", "Failed Delete list");
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+        }
     }
 
     public void saveAllList() {

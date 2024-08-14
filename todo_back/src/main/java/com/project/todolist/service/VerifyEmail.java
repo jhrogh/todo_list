@@ -3,7 +3,11 @@ package com.project.todolist.service;
 import com.project.todolist.dto.VerifyEmailDto;
 import com.project.todolist.entity.EmailVerification;
 import com.project.todolist.repository.EmailVerificationRepository;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,8 +28,8 @@ public class VerifyEmail {
         String verificationCode = createEmailCode.emailCode(email);
         // 인증 코드 생성 (6자리 숫자)
 //        String verificationCode = generateVerificationCode();
-        LocalDateTime createAt = LocalDateTime.now();
-        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(10); // 인증 코드는 10분 동안 유효
+        Timestamp createAt = Timestamp.from(Instant.now());
+        Timestamp expiresAt = Timestamp.from(Instant.now().plus(10, ChronoUnit.MINUTES)); // 인증 코드는 10분 동안 유효
 
 
         EmailVerification emailVerification = new EmailVerification();
@@ -44,9 +48,10 @@ public class VerifyEmail {
 
         if(optionalEmailVerification.isPresent()) {
             EmailVerification emailVerification = optionalEmailVerification.get();
-
+            LocalDateTime nowLocalDateTime = LocalDateTime.now();
+            Timestamp nowTimestamp = Timestamp.from(nowLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
             // 인증코드 존재
-            if(!emailVerification.getExpiresAt().isBefore(LocalDateTime.now())){
+            if(!emailVerification.getExpiresAt().before(nowTimestamp)){
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("status", "success");
                 responseBody.put("message", "Check email token successfully");

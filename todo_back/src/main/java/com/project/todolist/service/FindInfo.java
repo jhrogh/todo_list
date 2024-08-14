@@ -8,7 +8,9 @@ import com.project.todolist.entity.Member;
 import com.project.todolist.repository.EmailVerificationRepository;
 import com.project.todolist.repository.MemberRepository;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -64,8 +66,8 @@ public class FindInfo {
         if(optionalMember.isPresent()) {
             String verificationCode = createEmailCode.emailCode(findPwDto.getEmail());
 
-            LocalDateTime createAt = LocalDateTime.now();
-            LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(3); // 인증 코드는 3분 동안 유효
+            Timestamp createAt = Timestamp.from(Instant.now());
+            Timestamp expiresAt = Timestamp.from(Instant.now().plus(3, ChronoUnit.MINUTES)); // 인증 코드는 3분 동안 유효
 
             EmailVerification emailVerification = optionalMember.get().getEmailVerification();
             emailVerification.setVerificationCode(verificationCode);

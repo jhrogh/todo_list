@@ -6,7 +6,8 @@ import com.project.todolist.entity.Member;
 import com.project.todolist.repository.EmailVerificationRepository;
 import com.project.todolist.repository.MemberRepository;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class JoinMember {
             member.setPassword(password);
             member.setEmail(email);
             member.setEmailVerified(true);
-            member.setCreateAt(LocalDateTime.now());
+            member.setCreateAt(Timestamp.from(Instant.now()));
 
             memberRepository.save(member);
 
