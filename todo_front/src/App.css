@@ -1,13 +1,17 @@
 .app {
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100vh;
+  max-width: 1024px;
+  width: 100%;
 }
 
 .main-content {
   flex: 1;
   /* overflow-y: auto; */
   padding-bottom: 110px; /* 푸터 높이만큼의 패딩 추가 */
+  width: 100%;
 }
 
 

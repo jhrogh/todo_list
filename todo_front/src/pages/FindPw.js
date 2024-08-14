@@ -96,10 +96,6 @@ function FindPw() {
         const queryParams = new URLSearchParams({ from: 'findpw', memberId}).toString();
         const url = `/change/pw?${queryParams}`;
         navigate(url);
-        // localStorage.setItem('memberId', inputValues.memberId);
-        // console.log(data.message);
-        // console.log(localStorage.getItem('memberId'));
-        // navigate('/change/pw?from=findpw');
       } else {
         if (data.status === 'failed') {
           console.log(data.message);

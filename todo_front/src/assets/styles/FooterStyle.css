@@ -2,6 +2,7 @@
   background-color: #E6F7FF;
   height: 60px;
   width: 100%;
+  max-width: 1024px;
   position: fixed;
   bottom: 1px;
 }
