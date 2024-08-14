@@ -1,12 +1,17 @@
 package com.project.todolist.controller;
 
+import com.project.todolist.dto.IsCheckedHomeDto;
+import com.project.todolist.service.HomeList;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,26 +19,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/home")
 public class HomeController {
-    @PostMapping("/add")
-    public ResponseEntity<?> add() {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", "success");
-        responseBody.put("message", "List added successfully");
+    private final HomeList homeList;
 
-        return ResponseEntity.ok().body(responseBody);
+    @GetMapping("/show")
+    public ResponseEntity<?> show(HttpServletRequest request) {
+        return homeList.showList(request);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> add(HttpServletRequest request, @RequestBody String content) {
+        return homeList.addList(request, content);
     }
 
     @PostMapping("/checkbox")
-    public ResponseEntity<?> checkbox() {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", "success");
-        responseBody.put("message", "Checkbox status updated successfully");
-
-        return ResponseEntity.ok().body(responseBody);
+    public ResponseEntity<?> checkbox(HttpServletRequest request, @RequestBody IsCheckedHomeDto isCheckedHomeDto) {
+        return homeList.updateCheckbox(request, isCheckedHomeDto);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> update() {
+    public ResponseEntity<?> update(HttpServletRequest request, @RequestBody IsCheckedHomeDto isCheckedHomeDto) {
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("status", "success");
         responseBody.put("message", "List updated successfully");

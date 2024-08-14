@@ -1,5 +1,7 @@
 package com.project.todolist.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,16 +35,22 @@ public class CheckList {
     private String content;
 
     @Column(nullable = false)
-    private Boolean isChecked;
+    @JsonProperty("isChecked")
+    private boolean isChecked;
 
     @Column(nullable = false)
-    private LocalDateTime createAt;
+    @JsonProperty("isSaved")
+    private boolean isSaved;
 
     @Column(nullable = false)
-    private LocalDateTime updateAt;
+    private Timestamp createAt;
+
+    @Column(nullable = false)
+    private Timestamp updateAt;
 
     @ManyToOne
     @JoinColumn(name = "member_id", referencedColumnName = "id")
+    @JsonBackReference
     private Member member;
 
     @ManyToOne

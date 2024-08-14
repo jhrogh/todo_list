@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,10 +35,10 @@ public class SaveList {
     private String title;
 
     @Column(nullable = false)
-    private LocalDateTime createAt;
+    private Timestamp createAt;
 
     @Column(nullable = false)
-    private LocalDateTime updateAt;
+    private Timestamp updateAt;
 
     @ManyToOne
     @JoinColumn(name = "member_id", referencedColumnName = "id")

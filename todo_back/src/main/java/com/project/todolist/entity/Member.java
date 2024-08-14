@@ -1,5 +1,7 @@
 package com.project.todolist.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,18 +43,19 @@ public class Member {
     private String email;
 
     @Column(nullable = false)
-    private Boolean emailVerified = false;
+    @JsonProperty("emailVerified")
+    private boolean emailVerified = false;
 
     @Column(nullable = false)
     private String password;
 
-    @Column
-    private LocalDateTime createAt;
+    private Timestamp createAt;
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private EmailVerification emailVerification;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonBackReference
     private Set<CheckList> checkList;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
