@@ -174,6 +174,57 @@ function Home() {
     }
   };
 
+  const handleSaveAll = async () => {
+    const ids = todos.map(todo => todo.id);
+  
+    try {
+      const response = await fetch('http://localhost:8080/api/home/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ ids }), 
+      });
+  
+      if (response.ok) {
+        console.log('리스트 상태 저장 성공');
+        setTodos([]);
+        alert('저장되었습니다. 내역에서 확인해주세요 :)')
+      } else {
+        console.error('Failed to save list states');
+      }
+    } catch (error) {
+      console.error('Error saving list states:', error);
+    }
+  };
+  
+
+  const handleDeleteAll = async index => {
+    const ids = todos.map(todo => todo.id);
+    alert('삭제하시겠습니까?');
+    
+    try {
+      const response = await fetch('http://localhost:8080/api/home/delete-all', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ ids }), 
+      });
+  
+      if (response.ok) {
+        console.log('리스트 전체 삭제 성공');
+        setTodos([]);
+      } else {
+        console.error('Failed to save list states');
+      }
+    } catch (error) {
+      console.error('Error saving list states:', error);
+    }
+  }
+
   return (
     <>
       <Nav setIsPageVisible={setIsPageVisible} setUserName={setUserName} />
@@ -190,8 +241,8 @@ function Home() {
             <button onClick={handleAddTodo}>+</button>
           </div>
           <div className="home-button-container">
-            <button className="home-button-save">저장하기</button>
-            <button className="home-button-delete">전체 삭제</button>
+            <button className="home-button-save" onClick={handleSaveAll}>저장하기</button>
+            <button className="home-button-delete" onClick={handleDeleteAll}>전체 삭제</button>
           </div>
           <ul className="todo-list">
             {todos.map((todo, index) => (
