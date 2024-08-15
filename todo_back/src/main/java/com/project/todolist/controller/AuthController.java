@@ -34,13 +34,16 @@ public class AuthController {
     private final Mypage mypage;
 
     @GetMapping("/check-auth")      // 로그인 인증 여부 (jwt 토큰)
-    public ResponseEntity<?> checkAuth(HttpServletRequest request) {
+    public ResponseEntity<?> checkAuth(HttpServletRequest request, HttpServletResponse response) {
         String token = jwtToken.findToken(request);
 
         if(token != null) {
             boolean isValidateToken = jwtToken.validateToken(token);        // false: 만료됨
 
             if(isValidateToken) {
+                String memberId = jwtToken.findMemberId(token);
+                jwtToken.saveToken(response, jwtToken.createToken(memberId));
+
                 String name = mypage.findUserName(request);
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("status", "success");
