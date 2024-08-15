@@ -4,7 +4,7 @@ import com.project.todolist.dto.IsCheckedHomeDto;
 import com.project.todolist.dto.UpdateCheckListDto;
 import com.project.todolist.service.HomeList;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -48,20 +48,12 @@ public class HomeController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save() {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", "success");
-        responseBody.put("message", "List saved successfully");
-
-        return ResponseEntity.ok().body(responseBody);
+    public ResponseEntity<?> save(HttpServletRequest request, @RequestBody Map<String, List<Long>> requestBody) {
+        return homeList.saveAllList(request, requestBody);
     }
 
-    @DeleteMapping("/delete-all")
-    public ResponseEntity<?> deleteAll() {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", "success");
-        responseBody.put("message", "All lists deleted successfully");
-
-        return ResponseEntity.ok().body(responseBody);
+    @PostMapping("/delete-all")
+    public ResponseEntity<?> deleteAll(HttpServletRequest request, @RequestBody Map<String, List<Long>> requestBody) {
+        return homeList.deleteAllList(request, requestBody);
     }
 }
