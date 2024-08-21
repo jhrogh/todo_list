@@ -107,8 +107,6 @@ public class HomeList {
 
             checkListRepository.save(checkList);
 
-
-
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("status", "success");
             responseBody.put("message", "Checkbox status updated successfully");
@@ -140,7 +138,6 @@ public class HomeList {
             checkList.setUpdateAt(Timestamp.from(Instant.now()));
 
             checkListRepository.save(checkList);
-
 
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("status", "success");

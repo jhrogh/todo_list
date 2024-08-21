@@ -13,4 +13,5 @@ public interface CheckListRepository extends JpaRepository<CheckList, Long> {
 
     Optional<CheckList> findById(Long id);
     List<CheckList> findAllByIdInAndIsSavedFalse(List<Long> ids);
+    List<CheckList> findBySaveListId(Long saveListId);
 }
