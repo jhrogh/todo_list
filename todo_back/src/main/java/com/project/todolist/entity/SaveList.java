@@ -2,6 +2,7 @@ package com.project.todolist.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,7 +48,7 @@ public class SaveList {
     @JsonBackReference
     private Member member;
 
-    @OneToMany(mappedBy = "saveList")
+    @OneToMany(mappedBy = "saveList", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<CheckList> checkList;
 }
