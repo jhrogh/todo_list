@@ -1,8 +1,8 @@
 package com.project.todolist.controller;
 
-import java.util.ArrayList;
+import com.project.todolist.service.SaveHomeList;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,25 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/savelist")
 public class SaveListController {
+    private final SaveHomeList saveHomeList;
     @GetMapping("/show")
-    public ResponseEntity<?> show() {
-        List<Map<String, Object>> lists = new ArrayList<>();
-
-        Map<String, Object> listItem1 = new HashMap<>();
-        listItem1.put("id", 1);
-        listItem1.put("title", "List Title 1");
-        lists.add(listItem1);
-
-        Map<String, Object> listItem2 = new HashMap<>();
-        listItem2.put("id", 2);
-        listItem2.put("title", "List Title 2");
-        lists.add(listItem2);
-
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", "success");
-        responseBody.put("lists", lists);
-
-        return ResponseEntity.ok().body(responseBody);
+    public ResponseEntity<?> show(HttpServletRequest request) {
+        return saveHomeList.showSaveList(request);
     }
 
     @PostMapping("/update")

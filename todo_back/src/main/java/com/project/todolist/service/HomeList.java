@@ -83,6 +83,7 @@ public class HomeList {
 
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("status", "success");
+        responseBody.put("id", checkList.getId());
         responseBody.put("content", checkList.getContent());
         responseBody.put("isChecked", checkList.isChecked());
 

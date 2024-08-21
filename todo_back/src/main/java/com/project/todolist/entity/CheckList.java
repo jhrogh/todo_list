@@ -55,5 +55,6 @@ public class CheckList {
 
     @ManyToOne
     @JoinColumn(name = "save_list_id", referencedColumnName = "id")
+    @JsonBackReference
     private SaveList saveList;
 }

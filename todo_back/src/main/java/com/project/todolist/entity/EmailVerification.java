@@ -1,5 +1,6 @@
 package com.project.todolist.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,5 +41,6 @@ public class EmailVerification {
 
     @OneToOne
     @JoinColumn(name = "member_id", referencedColumnName = "id")
+    @JsonBackReference
     private Member member;
 }

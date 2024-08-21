@@ -1,6 +1,6 @@
 package com.project.todolist.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -52,12 +52,14 @@ public class Member {
     private Timestamp createAt;
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private EmailVerification emailVerification;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     private Set<CheckList> checkList;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<SaveList> saveList;
 }
