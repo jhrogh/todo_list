@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Nav from '../components/Nav';
 import '../assets/styles/SelectListStyle.css';
 
 function SelectList() {
-  const navigate = useNavigate();
   const location = useLocation();
   const { id, title } = location.state || {};
 

@@ -9,7 +9,6 @@ function SaveList() {
   const [userName, setUserName] = useState('');
 
   const [todos, setTodos] = useState([]);
-  const [posts, setPosts] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [editText, setEditText] = useState('');
 
