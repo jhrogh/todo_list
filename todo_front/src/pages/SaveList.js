@@ -62,14 +62,17 @@ function SaveList() {
     });
 
     try {
-      const response = await fetch('http://localhost:8080/api/home/update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://localhost:8080/api/savelist/update',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: requestBody,
         },
-        credentials: 'include',
-        body: requestBody,
-      });
+      );
       const data = await response.json();
       if (response.ok) {
         console.log(data.message);
@@ -89,7 +92,7 @@ function SaveList() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/home/delete-list?id=${todos[index].id}`,
+        `http://localhost:8080/api/savelist/delete?id=${todos[index].id}`,
         {
           method: 'DELETE',
           headers: {
@@ -112,8 +115,8 @@ function SaveList() {
   };
 
   const handleGoTo = (id, title) => {
-    console.log(id);    
-    navigate('/savelist/selectlist', { state: { id, title } }); 
+    console.log(id);
+    navigate('/savelist/selectlist', { state: { id, title } });
   };
 
   return (
