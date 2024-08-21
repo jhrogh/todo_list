@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Nav from '../components/Nav';
 import '../assets/styles/SaveListStyle.css';
 
 function SaveList() {
+  const navigate = useNavigate();
   const [isPageVisible, setIsPageVisible] = useState(false);
   const [userName, setUserName] = useState('');
 
@@ -109,6 +111,11 @@ function SaveList() {
     }
   };
 
+  const handleGoTo = (id, title) => {
+    console.log(id);    
+    navigate('/savelist/selectlist', { state: { id, title } }); 
+  };
+
   return (
     <>
       <Nav setIsPageVisible={setIsPageVisible} setUserName={setUserName} />
@@ -133,7 +140,10 @@ function SaveList() {
                     />
                   </div>
                 ) : (
-                  <span className={todo.isChecked ? 'strikethrough' : ''}>
+                  <span
+                    className={todo.isChecked ? 'strikethrough' : ''}
+                    onClick={() => handleGoTo(todo.id, todo.title)}
+                  >
                     {todo.title}
                   </span>
                 )}

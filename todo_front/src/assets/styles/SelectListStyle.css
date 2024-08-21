@@ -1,0 +1,125 @@
+.selectlist-container {
+  max-width: 1024px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.selectlist-input-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  height: 40px;
+}
+
+.selectlist-input-container input {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 16px;
+  margin-right: 15px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.selectlist-input-container button {
+  width: 50px;
+  font-size: 25px;
+  font-weight: bold;
+  background-color: #4c68a9;
+  color: #fffdf7;
+  border-color: #4c68a9;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 8px;
+  padding: 0;
+}
+
+.selectlist-savelist-title {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+/* 
+.home-button-container {
+  display: flex;
+  justify-content: right;
+  margin-bottom: 10px;
+}
+
+.home-button-save,
+.home-button-delete {
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #eeeeee;
+  color: #1c3879;
+  border-color: #eeeeee;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 20px;
+  padding: 3px 10px;
+  cursor: pointer;
+} */
+
+.selectlist-todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.selectlist-todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  padding: 5px 0;
+}
+
+.selectlist-todo-item input[type='checkbox'] {
+  margin-right: 5px;
+  margin-left: 7px;
+}
+
+.todo-edit-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  margin-left: 5px;
+  margin-right: 15px;
+}
+
+.todo-edit-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 15px;
+}
+
+.todo-item-span {
+  width: 100%;
+  margin-left: 10px;
+}
+.strikethrough {
+  text-decoration: line-through;
+  width: 100%;
+  margin-left: 10px;
+}
+
+.todo-item .icon-group {
+  display: flex;
+  gap: 15px;
+}
+
+.edit-icon,
+.delete-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.edit-icon:hover,
+.delete-icon:hover {
+  opacity: 0.7;
+}

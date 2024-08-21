@@ -45,6 +45,10 @@
   text-decoration: line-through;
 }
 
+.todo-item span {
+  cursor: pointer;
+}
+
 .icon-group {
   display: flex;
   gap: 17px; /* 아이콘 간격 설정 */
