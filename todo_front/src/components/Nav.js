@@ -9,13 +9,16 @@ function Nav({ setIsPageVisible, setUserName }) {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/check-auth', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          'http://43.202.173.195:8080/api/check-auth',
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
           },
-          credentials: 'include',
-        });
+        );
 
         const data = await response.json();
 
@@ -50,7 +53,7 @@ function Nav({ setIsPageVisible, setUserName }) {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/logout', {
+      const response = await fetch('http://43.202.173.195:8080/api/logout', {
         method: 'GET',
         credentials: 'include',
       });

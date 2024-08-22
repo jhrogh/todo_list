@@ -38,7 +38,7 @@ function FindPw() {
 
     try {
       const response = await fetch(
-        'http://localhost:8080/api/find/pw/verify-email',
+        'http://43.202.173.195:8080/api/find/pw/verify-email',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -76,7 +76,7 @@ function FindPw() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/find/pw/verify-email/code?code=${encodeURIComponent(
+        `http://43.202.173.195:8080/api/find/pw/verify-email/code?code=${encodeURIComponent(
           inputValues.emailCode,
         )}`,
         {
@@ -93,7 +93,10 @@ function FindPw() {
       if (response.ok && data.status === 'success') {
         alert('인증이 완료되었습니다.');
         const memberId = inputValues.memberId;
-        const queryParams = new URLSearchParams({ from: 'findpw', memberId}).toString();
+        const queryParams = new URLSearchParams({
+          from: 'findpw',
+          memberId,
+        }).toString();
         const url = `/change/pw?${queryParams}`;
         navigate(url);
       } else {

@@ -24,10 +24,13 @@ function Home() {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/home/show', {
-          method: 'GET',
-          credentials: 'include',
-        });
+        const response = await fetch(
+          'http://43.202.173.195:8080/api/home/show',
+          {
+            method: 'GET',
+            credentials: 'include',
+          },
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -53,14 +56,17 @@ function Home() {
   const handleAddTodo = async () => {
     if (newTodo.trim()) {
       try {
-        const response = await fetch('http://localhost:8080/api/home/add', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          'http://43.202.173.195:8080/api/home/add',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: newTodo.trim(),
           },
-          credentials: 'include',
-          body: newTodo.trim(),
-        });
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -102,14 +108,17 @@ function Home() {
     console.log(requestBody);
 
     try {
-      const response = await fetch('http://localhost:8080/api/home/checkbox', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://43.202.173.195:8080/api/home/checkbox',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: requestBody,
         },
-        credentials: 'include',
-        body: requestBody,
-      });
+      );
 
       console.log(todos);
       if (response.ok) {
@@ -143,14 +152,17 @@ function Home() {
     });
 
     try {
-      const response = await fetch('http://localhost:8080/api/home/update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://43.202.173.195:8080/api/home/update',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: requestBody,
         },
-        credentials: 'include',
-        body: requestBody,
-      });
+      );
       const data = await response.json();
       if (response.ok) {
         console.log(data.message);
@@ -170,7 +182,7 @@ function Home() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/home/delete-list?id=${todos[index].id}`,
+        `http://43.202.173.195:8080/api/home/delete-list?id=${todos[index].id}`,
         {
           method: 'DELETE',
           headers: {
@@ -201,7 +213,7 @@ function Home() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/home/save', {
+      const response = await fetch('http://43.202.173.195:8080/api/home/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -233,7 +245,7 @@ function Home() {
 
     try {
       const response = await fetch(
-        'http://localhost:8080/api/home/delete-all',
+        'http://43.202.173.195:8080/api/home/delete-all',
         {
           method: 'POST',
           headers: {

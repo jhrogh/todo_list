@@ -32,10 +32,13 @@ function Mypage() {
   useEffect(() => {
     const showData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/mypage/show', {
-          method: 'GET',
-          credentials: 'include',
-        });
+        const response = await fetch(
+          'http://43.202.173.195:8080/api/mypage/show',
+          {
+            method: 'GET',
+            credentials: 'include',
+          },
+        );
         if (response.ok) {
           const data = await response.json();
           const user = data.user;
@@ -57,7 +60,7 @@ function Mypage() {
   const handleDeleteAccount = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8080/api/mypage/delete-account',
+        'http://43.202.173.195:8080/api/mypage/delete-account',
         {
           method: 'DELETE',
           headers: {
@@ -89,7 +92,10 @@ function Mypage() {
 
   const handleChangePw = () => {
     const memberId = inputValues.memberId;
-    const queryParams = new URLSearchParams({ from: 'mypage', memberId}).toString();
+    const queryParams = new URLSearchParams({
+      from: 'mypage',
+      memberId,
+    }).toString();
     const url = `/change/pw?${queryParams}`;
     navigate(url);
     // localStorage.setItem('memberId', inputValues.memberId);

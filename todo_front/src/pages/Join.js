@@ -63,7 +63,7 @@ function Join() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/join/memberId/unique?memberId=${encodeURIComponent(
+        `http://43.202.173.195:8080/api/join/memberId/unique?memberId=${encodeURIComponent(
           inputValues.memberId,
         )}`,
         {
@@ -203,7 +203,7 @@ function Join() {
 
     try {
       const response = await fetch(
-        'http://localhost:8080/api/join/verify-email',
+        'http://43.202.173.195:8080/api/join/verify-email',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -234,7 +234,7 @@ function Join() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/join/verify-email/code?code=${encodeURIComponent(
+        `http://43.202.173.195:8080/api/join/verify-email/code?code=${encodeURIComponent(
           inputValues.emailCode,
         )}`,
         {
@@ -296,7 +296,7 @@ function Join() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/join', {
+      const response = await fetch('http://43.202.173.195:8080/api/join', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

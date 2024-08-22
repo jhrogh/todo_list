@@ -26,7 +26,7 @@ function SelectList() {
     const showData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/savelist/selectlist/id?id=${encodeURIComponent(
+          `http://43.202.173.195:8080/api/savelist/selectlist/id?id=${encodeURIComponent(
             id,
           )}`,
           {
@@ -61,7 +61,7 @@ function SelectList() {
     if (newTodo.trim()) {
       try {
         const response = await fetch(
-          'http://localhost:8080/api/savelist/selectlist/add',
+          'http://43.202.173.195:8080/api/savelist/selectlist/add',
           {
             method: 'POST',
             headers: {
@@ -113,7 +113,7 @@ function SelectList() {
 
     try {
       const response = await fetch(
-        'http://localhost:8080/api/savelist/selectlist/checkbox',
+        'http://43.202.173.195:8080/api/savelist/selectlist/checkbox',
         {
           method: 'POST',
           headers: {
@@ -157,7 +157,7 @@ function SelectList() {
 
     try {
       const response = await fetch(
-        'http://localhost:8080/api/savelist/selectlist/update',
+        'http://43.202.173.195:8080/api/savelist/selectlist/update',
         {
           method: 'POST',
           headers: {
@@ -186,7 +186,7 @@ function SelectList() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/savelist/selectlist/delete?id=${todos[index].id}`,
+        `http://43.202.173.195:8080/api/savelist/selectlist/delete?id=${todos[index].id}`,
         {
           method: 'DELETE',
           headers: {

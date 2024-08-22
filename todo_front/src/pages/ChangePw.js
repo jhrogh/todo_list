@@ -41,15 +41,18 @@ function ChangePw() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:8080/api/find/changepw', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          password: inputValues.password,
-          memberId: memberId,
-        }),
-      });
+      const response = await fetch(
+        'http://43.202.173.195:8080/api/find/changepw',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            password: inputValues.password,
+            memberId: memberId,
+          }),
+        },
+      );
 
       const data = await response.json();
 
