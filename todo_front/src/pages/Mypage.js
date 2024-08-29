@@ -33,7 +33,8 @@ function Mypage() {
     const showData = async () => {
       try {
         const response = await fetch(
-          'http://43.202.173.195:8080/api/mypage/show',
+          // 'http://43.202.173.195:8080/api/mypage/show',
+          'http://localhost:8080/api/mypage/show',
           {
             method: 'GET',
             credentials: 'include',
@@ -60,7 +61,8 @@ function Mypage() {
   const handleDeleteAccount = async () => {
     try {
       const response = await fetch(
-        'http://43.202.173.195:8080/api/mypage/delete-account',
+        // 'http://43.202.173.195:8080/api/mypage/delete-account',
+        'http://localhost:8080/api/mypage/delete-account',
         {
           method: 'DELETE',
           headers: {

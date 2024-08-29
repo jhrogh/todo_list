@@ -42,7 +42,8 @@ function ChangePw() {
     }
     try {
       const response = await fetch(
-        'http://43.202.173.195:8080/api/find/changepw',
+        // 'http://43.202.173.195:8080/api/find/changepw',
+        'http://localhost:8080/api/find/changepw',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

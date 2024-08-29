@@ -16,7 +16,8 @@ function SaveList() {
     const fetchTodos = async () => {
       try {
         const response = await fetch(
-          'http://43.202.173.195:8080/api/savelist/show',
+          // 'http://43.202.173.195:8080/api/savelist/show',
+          'http://localhost:8080/api/savelist/show',
           {
             method: 'GET',
             credentials: 'include',
@@ -62,7 +63,8 @@ function SaveList() {
 
     try {
       const response = await fetch(
-        'http://43.202.173.195:8080/api/savelist/update',
+        // 'http://43.202.173.195:8080/api/savelist/update',
+        'http://localhost:8080/api/savelist/update',
         {
           method: 'POST',
           headers: {
@@ -91,7 +93,8 @@ function SaveList() {
 
     try {
       const response = await fetch(
-        `http://43.202.173.195:8080/api/savelist/delete?id=${todos[index].id}`,
+        // `http://43.202.173.195:8080/api/savelist/delete?id=${todos[index].id}`,
+        `http://localhost:8080/api/savelist/delete?id=${todos[index].id}`,
         {
           method: 'DELETE',
           headers: {

@@ -38,7 +38,8 @@ function FindPw() {
 
     try {
       const response = await fetch(
-        'http://43.202.173.195:8080/api/find/pw/verify-email',
+        // 'http://43.202.173.195:8080/api/find/pw/verify-email',
+        'http://localhost:8080/api/find/pw/verify-email',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -76,7 +77,8 @@ function FindPw() {
 
     try {
       const response = await fetch(
-        `http://43.202.173.195:8080/api/find/pw/verify-email/code?code=${encodeURIComponent(
+        // `http://43.202.173.195:8080/api/find/pw/verify-email/code?code=${encodeURIComponent(
+          `http://localhost:8080/api/find/pw/verify-email/code?code=${encodeURIComponent(
           inputValues.emailCode,
         )}`,
         {

@@ -25,7 +25,8 @@ function Home() {
     const fetchTodos = async () => {
       try {
         const response = await fetch(
-          'http://43.202.173.195:8080/api/home/show',
+          // 'http://43.202.173.195:8080/api/home/show',
+          'http://localhost:8080/api/home/show',
           {
             method: 'GET',
             credentials: 'include',
@@ -57,7 +58,8 @@ function Home() {
     if (newTodo.trim()) {
       try {
         const response = await fetch(
-          'http://43.202.173.195:8080/api/home/add',
+          // 'http://43.202.173.195:8080/api/home/add',
+          'http://localhost:8080/api/home/add',
           {
             method: 'POST',
             headers: {
@@ -109,7 +111,8 @@ function Home() {
 
     try {
       const response = await fetch(
-        'http://43.202.173.195:8080/api/home/checkbox',
+        // 'http://43.202.173.195:8080/api/home/checkbox',
+        'http://localhost:8080/api/home/checkbox',
         {
           method: 'POST',
           headers: {
@@ -153,7 +156,8 @@ function Home() {
 
     try {
       const response = await fetch(
-        'http://43.202.173.195:8080/api/home/update',
+        // 'http://43.202.173.195:8080/api/home/update',
+        'http://localhost:8080/api/home/update',
         {
           method: 'POST',
           headers: {
@@ -182,7 +186,8 @@ function Home() {
 
     try {
       const response = await fetch(
-        `http://43.202.173.195:8080/api/home/delete-list?id=${todos[index].id}`,
+        // `http://43.202.173.195:8080/api/home/delete-list?id=${todos[index].id}`,
+        `http://localhost:8080/api/home/delete-list?id=${todos[index].id}`,
         {
           method: 'DELETE',
           headers: {
@@ -213,7 +218,8 @@ function Home() {
     }
 
     try {
-      const response = await fetch('http://43.202.173.195:8080/api/home/save', {
+      // const response = await fetch('http://43.202.173.195:8080/api/home/save', {
+        const response = await fetch('http://localhost:8080/api/home/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -245,7 +251,8 @@ function Home() {
 
     try {
       const response = await fetch(
-        'http://43.202.173.195:8080/api/home/delete-all',
+        // 'http://43.202.173.195:8080/api/home/delete-all',
+        'http://localhost:8080/api/home/delete-all',
         {
           method: 'POST',
           headers: {
