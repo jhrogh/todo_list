@@ -18,14 +18,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class VerifyEmail {
+public class VerifyEmailService {
     private final EmailVerificationRepository emailVerificationRepository;
-    private final CreateEmailCode createEmailCode;
+    private final CreateEmailCodeService createEmailCodeService;
 
     public void sendEmailCode(VerifyEmailDto verifyEmailDto) {
         // 1. 이메일 저장
         String email = verifyEmailDto.getEmail();
-        String verificationCode = createEmailCode.emailCode(email);
+        String verificationCode = createEmailCodeService.emailCode(email);
         // 인증 코드 생성 (6자리 숫자)
 //        String verificationCode = generateVerificationCode();
         Timestamp createAt = Timestamp.from(Instant.now());

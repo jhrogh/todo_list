@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor
-public class SelectList {
-    private final JwtToken jwtToken;
+public class SelectListService {
+    private final JwtTokenService jwtTokenService;
     private final CheckListRepository checkListRepository;
     private final MemberRepository memberRepository;
     private final SaveListRepository saveListRepository;
@@ -51,7 +51,7 @@ public class SelectList {
     public ResponseEntity<?> addSelectList(HttpServletRequest request, @RequestBody SelectListAddDto selectListAddDto) {
         Long saveListId = selectListAddDto.getId();
         String content = selectListAddDto.getContent();
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
 
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
@@ -116,7 +116,7 @@ public class SelectList {
     }
 
     public ResponseEntity<?> deleteSelectList(HttpServletRequest request, Long id) {
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
 

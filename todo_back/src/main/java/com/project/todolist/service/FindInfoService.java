@@ -21,11 +21,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FindInfo {
+public class FindInfoService {
     private final MemberRepository memberRepository;
-    private final CreateEmailCode createEmailCode;
+    private final CreateEmailCodeService createEmailCodeService;
     private final EmailVerificationRepository emailVerificationRepository;
-    private final HashPassword hashPassword;
+    private final HashPasswordService hashPasswordService;
 
     public ResponseEntity<?> searchId(FindIdDto findIdDto) {
         String name = findIdDto.getName();
@@ -64,7 +64,7 @@ public class FindInfo {
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
 
         if(optionalMember.isPresent()) {
-            String verificationCode = createEmailCode.emailCode(findPwDto.getEmail());
+            String verificationCode = createEmailCodeService.emailCode(findPwDto.getEmail());
 
             Timestamp createAt = Timestamp.from(Instant.now());
             Timestamp expiresAt = Timestamp.from(Instant.now().plus(3, ChronoUnit.MINUTES)); // 인증 코드는 3분 동안 유효
@@ -96,7 +96,7 @@ public class FindInfo {
         Member member = optionalMember.get();
         String newHashPassword;
         try {
-            newHashPassword = hashPassword.hashPassword(changePwDto.getPassword());
+            newHashPassword = hashPasswordService.hashPassword(changePwDto.getPassword());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }

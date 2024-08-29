@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
-public class Mypage {
-    private final JwtToken jwtToken;
+public class MypageService {
+    private final JwtTokenService jwtTokenService;
     private final MemberRepository memberRepository;
-    private final HashPassword hashPassword;
-    private final CheckLogin checkLogin;
+    private final HashPasswordService hashPasswordService;
+    private final CheckLoginService checkLoginService;
 
     public ResponseEntity<?> showMyInfo(HttpServletRequest request) {
-        String token = jwtToken.findToken(request);
-        String memberId = jwtToken.findMemberId(token);
+        String token = jwtTokenService.findToken(request);
+        String memberId = jwtTokenService.findMemberId(token);
 
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
@@ -42,8 +42,8 @@ public class Mypage {
     }
 
     public String findUserName(HttpServletRequest request) {
-        String token = jwtToken.findToken(request);
-        String memberId = jwtToken.findMemberId(token);
+        String token = jwtTokenService.findToken(request);
+        String memberId = jwtTokenService.findMemberId(token);
 
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
@@ -54,17 +54,17 @@ public class Mypage {
     public ResponseEntity<?> deleteAccount(HttpServletRequest request, @RequestBody Map<String, String> password, HttpServletResponse response) {
         String hashpassword;
         try {
-            hashpassword = hashPassword.hashPassword(password.get("password"));
+            hashpassword = hashPasswordService.hashPassword(password.get("password"));
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Password hashing failed", e);
         }
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
 
         if(optionalMember.isPresent()){
             Member member = optionalMember.get();
             if (hashpassword.equals(member.getPassword())) {
-                checkLogin.logoutUser(request, response);
+                checkLoginService.logoutUser(request, response);
                 memberRepository.delete(member);
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("status", "success");

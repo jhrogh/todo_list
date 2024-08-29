@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CheckLogin {
+public class CheckLoginService {
     private final MemberRepository memberRepository;
-    private final HashPassword hashPassword;
-    private final JwtToken jwtToken;
+    private final HashPasswordService hashPasswordService;
+    private final JwtTokenService jwtTokenService;
 
     public CheckMemberDto checkMember(LoginDto loginDto) {
         // 아이디로 디비 조회
@@ -33,7 +33,7 @@ public class CheckLogin {
             Member member = optionalMember.get();
             String password;
             try {
-                password = hashPassword.hashPassword(loginDto.getPassword());
+                password = hashPasswordService.hashPassword(loginDto.getPassword());
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException("Password hashing failed", e);
             }
@@ -55,8 +55,8 @@ public class CheckLogin {
     }
 
     public ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response) {
-        if(!jwtToken.findToken(request).isEmpty()) {
-            jwtToken.deleteToken(response);
+        if(!jwtTokenService.findToken(request).isEmpty()) {
+            jwtTokenService.deleteToken(response);
 
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("status", "success");

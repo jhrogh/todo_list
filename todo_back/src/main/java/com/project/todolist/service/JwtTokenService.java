@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class JwtToken {
+public class JwtTokenService {
     @Value("${jwt.secret}")
     private String secretKeyBase64;
 

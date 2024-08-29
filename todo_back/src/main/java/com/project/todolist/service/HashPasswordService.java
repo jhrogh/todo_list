@@ -6,7 +6,7 @@ import java.util.Base64;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HashPassword {
+public class HashPasswordService {
     // 비밀번호를 SHA-256 해시로 변환합니다.
     public String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");

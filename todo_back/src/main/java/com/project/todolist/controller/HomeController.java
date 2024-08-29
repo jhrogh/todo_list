@@ -2,7 +2,11 @@ package com.project.todolist.controller;
 
 import com.project.todolist.dto.IsCheckedHomeDto;
 import com.project.todolist.dto.UpdateCheckListDto;
-import com.project.todolist.service.HomeList;
+import com.project.todolist.service.HomeListService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -16,44 +20,80 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "체크리스트", description = "체크리스트(HOME) API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/home")
 public class HomeController {
-    private final HomeList homeList;
+    private final HomeListService homeListService;
 
     @GetMapping("/show")
+    @Operation(summary = "작성 중인 체크리스트 불러오기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success : isSaved = false"),
+            @ApiResponse(responseCode = "404", description = "NOT_FOUND : 작성한 체크리스트 없음"),
+            @ApiResponse(responseCode = "404", description = "NOT_FOUND : 체크리스트 존재 && 모든 isSaved = true"),
+    })
     public ResponseEntity<?> show(HttpServletRequest request) {
-        return homeList.showList(request);
+        return homeListService.showList(request);
     }
 
     @PostMapping("/add")
+    @Operation(summary = "체크리스트 추가 (isSaved=false)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success"),
+    })
     public ResponseEntity<?> add(HttpServletRequest request, @RequestBody String content) {
-        return homeList.addList(request, content);
+        return homeListService.addList(request, content);
     }
 
     @PostMapping("/checkbox")
+    @Operation(summary = "체크박스 변경 (isSaved=false)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success"),
+            @ApiResponse(responseCode = "404", description = "NOT_FOUND"),
+    })
     public ResponseEntity<?> checkbox(HttpServletRequest request, @RequestBody IsCheckedHomeDto isCheckedHomeDto) {
-        return homeList.updateCheckbox(request, isCheckedHomeDto);
+        return homeListService.updateCheckbox(request, isCheckedHomeDto);
     }
 
     @PostMapping("/update")
+    @Operation(summary = "체크리스트 내용 수정 (isSaved=false)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success"),
+            @ApiResponse(responseCode = "404", description = "NOT_FOUND"),
+    })
     public ResponseEntity<?> update(HttpServletRequest request, @RequestBody UpdateCheckListDto updateCheckListDto) {
-        return homeList.updateList(request, updateCheckListDto);
+        return homeListService.updateList(request, updateCheckListDto);
     }
 
     @DeleteMapping("/delete-list")
+    @Operation(summary = "체크리스트 내용 삭제 (isSaved=false)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success"),
+            @ApiResponse(responseCode = "404", description = "NOT_FOUND"),
+    })
     public ResponseEntity<?> deleteList(HttpServletRequest request, @RequestParam("id") Long id) {
-        return homeList.deleteList(request, id);
+        return homeListService.deleteList(request, id);
     }
 
     @PostMapping("/save")
+    @Operation(summary = "전체 저장 (isSaved=false)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success"),
+            @ApiResponse(responseCode = "404", description = "NOT_FOUND"),
+    })
     public ResponseEntity<?> save(HttpServletRequest request, @RequestBody Map<String, List<Long>> requestBody) {
-        return homeList.saveAllList(request, requestBody);
+        return homeListService.saveAllList(request, requestBody);
     }
 
     @PostMapping("/delete-all")
+    @Operation(summary = "전체 삭제 (isSaved=false)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "success"),
+            @ApiResponse(responseCode = "404", description = "NOT_FOUND"),
+    })
     public ResponseEntity<?> deleteAll(HttpServletRequest request, @RequestBody Map<String, List<Long>> requestBody) {
-        return homeList.deleteAllList(request, requestBody);
+        return homeListService.deleteAllList(request, requestBody);
     }
 }

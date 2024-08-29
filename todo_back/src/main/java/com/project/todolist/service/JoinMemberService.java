@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class JoinMember {
+public class JoinMemberService {
     private final MemberRepository memberRepository;
-    private final HashPassword hashPassword;
+    private final HashPasswordService hashPasswordService;
     private final EmailVerificationRepository emailVerificationRepository;
 
     public ResponseEntity<?> saveMember(JoinDto joinDto) {
@@ -30,7 +30,7 @@ public class JoinMember {
             String name = joinDto.getName();
             String password;
             try {
-                password = hashPassword.hashPassword(joinDto.getPassword());
+                password = hashPasswordService.hashPassword(joinDto.getPassword());
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
             }

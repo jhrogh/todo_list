@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor
-public class SaveHomeList {
-    private final JwtToken jwtToken;
+public class SaveHomeListService {
+    private final JwtTokenService jwtTokenService;
     private final MemberRepository memberRepository;
     private final CheckListRepository checkListRepository;
     private final SaveListRepository saveListRepository;
 
     public ResponseEntity<?> showSaveList(HttpServletRequest request) {
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
         List<SaveList> saveLists = saveListRepository.findByMember(member);
@@ -69,7 +69,7 @@ public class SaveHomeList {
     }
 
     public ResponseEntity<?> deleteSaveList(HttpServletRequest request, @RequestParam("id") Long id) {
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
 

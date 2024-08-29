@@ -26,14 +26,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
-public class HomeList {
-    private final JwtToken jwtToken;
+public class HomeListService {
+    private final JwtTokenService jwtTokenService;
     private final CheckListRepository checkListRepository;
     private final MemberRepository memberRepository;
     private final SaveListRepository saveListRepository;
 
     public ResponseEntity<?> showList(HttpServletRequest request) {
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
         List<CheckList> checkLists = checkListRepository.findByMember(member);
@@ -66,7 +66,7 @@ public class HomeList {
     }
 
     public ResponseEntity<?> addList(HttpServletRequest request, String content) {
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
 
@@ -93,7 +93,7 @@ public class HomeList {
     public ResponseEntity<?> updateCheckbox(HttpServletRequest request, @RequestBody IsCheckedHomeDto isCheckedHomeDto) {
         Long id = isCheckedHomeDto.getId();
 
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
 
@@ -125,7 +125,7 @@ public class HomeList {
     public ResponseEntity<?> updateList(HttpServletRequest request, @RequestBody UpdateCheckListDto updateCheckListDto) {
         Long id = updateCheckListDto.getId();
 
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
 
@@ -155,7 +155,7 @@ public class HomeList {
     }
 
     public ResponseEntity<?> deleteList(HttpServletRequest request, Long id) {
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
 
@@ -181,7 +181,7 @@ public class HomeList {
     }
 
     public ResponseEntity<?> saveAllList(HttpServletRequest request, @RequestBody Map<String, List<Long>> requestBody) {
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
 
@@ -221,7 +221,7 @@ public class HomeList {
     }
 
     public ResponseEntity<?> deleteAllList(HttpServletRequest request, @RequestBody Map<String, List<Long>> requestBody) {
-        String memberId = jwtToken.findMemberId(jwtToken.findToken(request));
+        String memberId = jwtTokenService.findMemberId(jwtTokenService.findToken(request));
         Optional<Member> optionalMember = memberRepository.findByMemberId(memberId);
         Member member = optionalMember.get();
 
