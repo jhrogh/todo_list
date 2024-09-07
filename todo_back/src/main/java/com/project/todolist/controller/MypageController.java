@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "마이페이지", description = "마이페이지 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/mypageService")
+@RequestMapping("/api/mypage")
 public class MypageController {
     private final MypageService mypageService;
 
